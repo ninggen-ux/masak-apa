@@ -1,4 +1,4 @@
-import Hero from "./assets/tsx/pages/hero.tsx";
+import Hero from "./assets/tsx/pages/Hero.tsx";
 import Navbar from "./assets/tsx/pages/Navbar";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./assets/sass/main.scss";
