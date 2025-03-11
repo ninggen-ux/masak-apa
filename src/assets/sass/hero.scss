@@ -1,0 +1,66 @@
+@use "./main.scss";
+
+.main {
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    align-items: center;
+    justify-items: center;
+    .main__text {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 3rem;
+        img {
+            width: clamp(2rem, 2.7vw, 2.7vw);
+            aspect-ratio: 1/1;
+        }
+        .main__text__content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+            div:nth-of-type(1) {
+                h1 {
+                    font-size: clamp(3em, 5.5vw, 5.5vw);
+                }
+                p {
+                    font-size: clamp(1em, 1.5vw, 1.5vw);
+                }
+            }
+            div:nth-of-type(2) {
+                /*
+                * Di tambahkan flex dibawah karena ukuran div tidak
+                * mau mengikuti ukuran dari padding a
+                */
+                display: flex;
+                a {
+                    padding: 1rem 2rem;
+                    border-radius: 1.5rem;
+                    text-decoration: none;
+                    color: white;
+                    background-color: main.$fourth-color;
+                    font-size: clamp(1em, 1vw, 1vw);
+                }
+            }
+        }
+    }
+    .main__food-img {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        img {
+            width: 75%;
+        }
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .main {
+        .main__text {
+            padding: 2rem;
+        }
+    }
+}
