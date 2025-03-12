@@ -46,6 +46,7 @@ export default function Hero() {
                     </div>
                     <div>
                         <a href="#">Get Started</a>
+                        <h1>Hello World!!!</h1>
                     </div>
                 </div>
             </div>
