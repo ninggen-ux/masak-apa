@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 import "../../sass/navbar.scss";
 
 export default function Navbar() {
@@ -8,8 +8,8 @@ export default function Navbar() {
                 <nav className="header__nav">
                     <span>MasakApa</span>
                     <div>
-                        <a href="#">Sign Up</a>
-                        <a href="#">Log In</a>
+                        <Link to="/auth">Sign Up</Link>
+                        <Link to="/auth">Log In</Link>
                     </div>
                 </nav>
             </header>
