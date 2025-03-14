@@ -1,29 +1,22 @@
 import Login from "../components/auth/Login.tsx";
-import img1 from "../../img/auth-img/1.png";
-import img2 from "../../img/auth-img/2.png";
+import SignUp from "../components/auth/SignUp.tsx";
+import { useState } from "react";
 import "../../sass/auth.scss";
 
 export default function Auth() {
-    interface AuthImgList {
-        id: number;
-        img: string;
-    }
+    const [authSwitch, setAuthSwitch] = useState<string>("login");
 
-    const authImgList: AuthImgList[] = [
-        {
-            id: 1,
-            img: img1,
-        },
-        {
-            id: 2,
-            img: img2,
-        },
-    ];
+    /**
+     * Akan di revisi karena fitur seperti ini sangat menyusahkan dalam
+     * perawatan.
+     */
 
     return (
         <main className="auth">
-            <Login />
-            <img src={authImgList[0].img} alt="Makanan" />
+            {authSwitch === "login" && <Login setAuthSwitch={setAuthSwitch} />}
+            {authSwitch === "signup" && (
+                <SignUp setAuthSwitch={setAuthSwitch} />
+            )}
         </main>
     );
 }
