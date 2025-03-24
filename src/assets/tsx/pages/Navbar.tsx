@@ -8,8 +8,8 @@ export default function Navbar() {
                 <nav className="header__nav">
                     <span>MasakApa</span>
                     <div>
-                        <Link to="/auth">Sign Up</Link>
-                        <Link to="/auth">Log In</Link>
+                        <Link to="/sign-up">Sign Up</Link>
+                        <Link to="/login">Log In</Link>
                     </div>
                 </nav>
             </header>

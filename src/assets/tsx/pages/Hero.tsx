@@ -6,6 +6,7 @@ import "../../sass/hero.scss";
 
 export default function Hero() {
     const [numberCount, setNumberCount] = useState<number>(0);
+    // Untuk perulangan/iterasi di gambar dan judul
 
     useEffect(() => {
         const interfal = setInterval(() => {
@@ -29,9 +30,9 @@ export default function Hero() {
                                 /**
                                  * Terkadang Keynya saya buat seperti ini
                                  * `title-key-${foodTagLine[numberCount].id}`,
-                                 * itu untuk menghindari persamaan key dengan
+                                 * untuk menghindari persamaan key dengan
                                  * element lain, yang bisa menyebabkan
-                                 * banyak hal tidak terdua di UI.
+                                 * banyak hal tidak terduga di UI.
                                  */
                                 initial={{ opacity: 0, x: -10 }}
                                 animate={{ opacity: 1, x: 0 }}
