@@ -1,0 +1,39 @@
+@use "./main.scss";
+
+.header {
+    width: 100%;
+    position: sticky;
+    top: 0;
+    .header__nav {
+        width: 100%;
+        background-color: main.$first-color;
+        padding: 1rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        span {
+            color: main.$fifth-color;
+            font-size: 1.7em;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        div {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            a {
+                text-decoration: none;
+                color: main.$fifth-color;
+                font-weight: 500;
+                text-transform: uppercase;
+                font-size: 1em;
+            }
+            a:nth-of-type(2) {
+                background-color: main.$fifth-color;
+                color: white;
+                padding: 0.5rem 1rem;
+                border-radius: 1rem;
+            }
+        }
+    }
+}

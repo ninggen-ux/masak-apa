@@ -1,0 +1,96 @@
+@use "./main.scss";
+
+.signup {
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 0.7fr 1.3fr;
+    .signup__form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: main.$second-color;
+        gap: 1.5rem;
+        position: relative;
+        h1 {
+            color: main.$fifth-color;
+        }
+        .signup__form__input {
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 0.5rem;
+            .signup__form__input__item {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.1rem;
+                label {
+                    width: 85%;
+                    color: main.$fifth-color;
+                }
+                input {
+                    width: 100%;
+                    border: 1px solid black;
+                    border-radius: 1rem;
+                    padding: 0.5rem 1rem;
+                }
+            }
+        }
+        .signup__form__button {
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            .signup__form__button__submit {
+                width: 100%;
+                text-transform: uppercase;
+                border: none;
+                background-color: main.$fourth-color;
+                color: white;
+                font-size: 1.2em;
+                padding: 0.5rem 1rem;
+                border-radius: 1.5rem;
+                cursor: pointer;
+            }
+            P {
+                color: main.$fifth-color;
+                a {
+                    color: main.$fifth-color;
+                }
+            }
+        }
+        .signup__form__back-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 1rem;
+            left: 1.5rem;
+            gap: 0.3rem;
+            background-color: transparent;
+            color: main.$fifth-color;
+            font-size: 1.3em;
+            text-decoration: none;
+        }
+    }
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .signup {
+        grid-template-columns: 1fr;
+        img {
+            display: none;
+        }
+    }
+}
