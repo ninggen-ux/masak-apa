@@ -10,7 +10,7 @@ export default function SignUp() {
         initial: {},
         animate: {
             transition: {
-                staggerChildren: 1.2,
+                staggerChildren: 1,
             },
         },
     };
@@ -24,7 +24,7 @@ export default function SignUp() {
             opacity: 1,
             scale: 1,
             transition: {
-                duration: 1.2,
+                duration: 1,
             },
         },
     };
@@ -33,7 +33,7 @@ export default function SignUp() {
         initial: {},
         animate: {
             transition: {
-                staggerChildren: 0.3,
+                staggerChildren: 0.2,
             },
         },
     };
