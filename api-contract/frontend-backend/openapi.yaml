@@ -1,0 +1,259 @@
+openapi: 3.0.0
+info:
+  title: Food App API
+  description: API untuk aplikasi makanan, termasuk autentikasi pengguna, pencarian resep, dan rekomendasi bahan
+  version: 1.0.0
+components:
+paths:
+  /signup:
+    post:
+      summary: Mendaftarkan pengguna baru
+      description: Membuat akun pengguna baru dengan username, email, dan password
+      requestBody:
+        description: Data pengguna untuk pendaftaran
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: Nama pengguna unik
+                email:
+                  type: string
+                  format: email
+                  description: Alamat email pengguna
+                password:
+                  type: string
+                  format: password
+                  description: Kata sandi pengguna
+              required:
+                - username
+                - email
+                - password
+            example:
+              username: "johndoe"
+              email: "john.doe@example.com"
+              password: "SecurePass123!"
+      responses:
+        '201':
+          description: Pengguna berhasil didaftarkan
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: ID unik pengguna
+                  username:
+                    type: string
+                    description: Nama pengguna
+                  email:
+                    type: string
+                    format: email
+                    description: Alamat email pengguna
+              example:
+                id: 1
+                username: "johndoe"
+                email: "john.doe@example.com"
+        '400':
+          description: Permintaan salah (misalnya, email sudah terdaftar atau password tidak cocok)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Pesan error
+              example:
+                error: "Email already exists or passwords do not match"
+        '500':
+          description: Kesalahan server internal
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Pesan error
+              example:
+                error: "Internal server error"
+  /login:
+    post:
+      summary: Login pengguna
+      description: Mengautentikasi pengguna dengan email dan password
+      requestBody:
+        description: Kredensial pengguna untuk login
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: Alamat email pengguna
+                password:
+                  type: string
+                  format: password
+                  description: Kata sandi pengguna
+              required:
+                - email
+                - password
+            example:
+              email: "john.doe@example.com"
+              password: "SecurePass123!"
+      responses:
+        '200':
+          description: Login berhasil
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: ID unik pengguna
+                  username:
+                    type: string
+                    description: Nama pengguna
+                  email:
+                    type: string
+                    format: email
+                    description: Alamat email pengguna
+              example:
+                id: 1
+                username: "johndoe"
+                email: "john.doe@example.com"
+        '401':
+          description: Kredensial salah (email atau password tidak valid)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Pesan error
+              example:
+                error: "Invalid email or password"
+        '500':
+          description: Kesalahan server internal
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Pesan error
+              example:
+                error: "Internal server error"
+  /search:
+    post:
+      summary: Mencari resep berdasarkan bahan
+      description: Mencari resep atau informasi berdasarkan daftar bahan yang diberikan, dan menyimpan log pencarian
+      requestBody:
+        description: Daftar bahan untuk pencarian
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ingredients:
+                  type: array
+                  items:
+                    type: string
+                  description: Daftar bahan makanan yang dipisahkan oleh koma di search bar
+              required:
+                - ingredients
+            example:
+              ingredients: ["pisang", "apel", "kelapa"]
+      responses:
+        '200':
+          description: Pencarian berhasil, mengembalikan daftar resep atau informasi
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: ID unik resep
+                    name:
+                      type: string
+                      description: Nama resep
+                    ingredients:
+                      type: array
+                      items:
+                        type: string
+                      description: Daftar bahan yang dibutuhkan
+                    instructions:
+                      type: string
+                      description: Instruksi pembuatan
+              example:
+                - id: 1
+                  name: "Smoothie Tropis"
+                  ingredients: ["pisang", "kelapa", "mangga"]
+                  instructions: "Blender semua bahan dengan es hingga halus."
+                - id: 2
+                  name: "Salad Buah"
+                  ingredients: ["pisang", "apel", "yogurt"]
+                  instructions: "Potong buah, campur dengan yogurt, sajikan dingin."
+        '500':
+          description: Kesalahan server internal
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Pesan error
+              example:
+                error: "Internal server error"
+  /search/recommendations:
+    get:
+      summary: Mendapatkan rekomendasi resep
+      description: Mengembalikan daftar resep yang direkomendasikan berdasarkan bahan yang sering dicari oleh pengguna
+      responses:
+        '200':
+          description: Rekomendasi berhasil diambil
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: ID unik resep
+                    name:
+                      type: string
+                      description: Nama resep
+                    ingredients:
+                      type: array
+                      items:
+                        type: string
+                      description: Daftar bahan yang dibutuhkan
+                    instructions:
+                      type: string
+                      description: Instruksi pembuatan
+              example:
+                - id: 1
+                  name: "Smoothie Tropis"
+                  ingredients: ["pisang", "kelapa", "mangga"]
+                  instructions: "Blender semua bahan dengan es hingga halus."
+                - id: 2
+                  name: "Salad Buah"
+                  ingredients: ["pisang", "apel", "yogurt"]
+                  instructions: "Potong buah, campur dengan yogurt, sajikan dingin."
