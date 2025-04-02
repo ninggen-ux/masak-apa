@@ -1,0 +1,158 @@
+openapi: 3.0.0
+info:
+  title: Food App API ( Backend - ML )
+  description: API untuk aplikasi makanan, termasuk autentikasi pengguna, pencarian resep, dan rekomendasi bahan
+  version: 1.0.0
+components:
+paths:
+  /search:
+    post:
+      summary: Mencari resep berdasarkan bahan
+      description: Mencari resep atau informasi berdasarkan daftar bahan yang diberikan, dan menyimpan log pencarian
+      requestBody:
+        description: Daftar bahan untuk pencarian
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ingredients:
+                  type: array
+                  items:
+                    type: string
+                  description: Daftar bahan makanan yang dipisahkan oleh koma di search bar
+              required:
+                - ingredients
+            example:
+              text: "Saya ingin mengetahui resep dengan bahan telur, susu, dan tepung"
+      responses:
+        '200':
+          description: Pencarian berhasil, mengembalikan daftar resep atau informasi
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: ID unik resep
+                    name:
+                      type: string
+                      description: Nama resep
+                    ingredients:
+                      type: array
+                      items:
+                        type: string
+                      description: Daftar bahan yang dibutuhkan
+                    instructions:
+                      type: string
+                      description: Instruksi pembuatan
+                    source:
+                      type: string
+                      description: Sumber resep
+              example:
+                - id: 1
+                  name: "Smoothie Tropis"
+                  ingredients:
+                    - "2 pisang"
+                    - "segelas susu"
+                    - 1 sdm madu"
+                  instructions: "Campurkan semua bahan dalam blender dan haluskan hingga lembut."
+                  source: "https://www.example.com/smoothie-tropis"
+                - id: 2
+                  name: "Pancake Pisang"
+                  ingredients:
+                    - "2 pisang"
+                    - "1 cangkir tepung"
+                    - "1 gelas susu"
+                  instructions: "Campurkan semua bahan, goreng di atas wajan hingga kecokelatan."
+                  source: "https://www.example.com/pancake-pisang"
+                - id: 3
+                  name: "Salad Buah"
+                  ingredients:
+                    - "3 apel"
+                    - "2 pisang"
+                    - "1/2 kelapa"
+                  instructions: "Potong semua bahan, campurkan dalam mangkuk, dan sajikan."
+                  source: "https://www.example.com/salad-buah"
+        '400':
+          description: Permintaan tidak valid
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Pesan error
+                example:
+                  error: "Permintaan tidak valid, silakan periksa format data yang dikirim."
+        '500':
+          description: Kesalahan server internal
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Pesan error
+                example:
+                  error: "Internal server error"
+  /search/recommendations:
+    get:
+      summary: Mendapatkan rekomendasi bahan
+      description: Mengambil rekomendasi bahan berdasarkan preferensi pengguna
+      responses:
+        '200':
+          description: Rekomendasi berhasil, mengembalikan daftar bahan
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+              example:
+                - id: 1
+                  name: "Pasta"
+                  ingredients:
+                    - "200 gram pasta"
+                    - "1 sdm minyak zaitun"
+                    - "1 siung bawang putih"
+                  instructions: "Rebus pasta hingga al dente, tumis bawang putih dengan minyak zaitun, campurkan pasta dan sajikan."
+                  source: "https://www.example.com/pasta"
+                - id: 2
+                  name: "Nasi Goreng"
+                  ingredients:
+                    - "2 piring nasi"
+                    - "1 butir telur"
+                    - "1 sdm kecap manis"
+                  instructions: "Tumis bawang, masukkan nasi dan telur, aduk rata, tambahkan kecap manis."
+                  source: "https://www.example.com/nasi-goreng"
+                - id: 3
+                  name: "Salad Sayur"
+                  ingredients:
+                    - "1 mangkuk sayuran segar"
+                    - "1 sdm minyak zaitun"
+                    - "1 sdm cuka"
+                  instructions: "Campurkan semua bahan dalam mangkuk, aduk rata, dan sajikan."
+                  source: "https://www.example.com/salad-sayur"
+                - id: 4
+                  name: "Sushi"
+                  ingredients:
+                    - "2 cangkir nasi sushi"
+                    - "1 lembar nori"
+                    - "ikan salmon"
+                  instructions: "Masak nasi sushi, letakkan di atas nori, tambahkan ikan salmon, gulung dan potong."
+                  source: "https://www.example.com/sushi"
+                - id: 5
+                  name: "Taco"
+                  ingredients:
+                    - "2 lembar tortilla"
+                    - "daging giling"
+                    - "sayuran segar"
+                  instructions: "Masak daging giling, letakkan di atas tortilla, tambahkan sayuran, lipat dan sajikan."
+                  source: "https://www.example.com/taco"
