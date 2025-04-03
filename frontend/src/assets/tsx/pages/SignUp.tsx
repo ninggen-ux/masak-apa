@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHandPointLeft } from "@fortawesome/free-regular-svg-icons";
 import { motion } from "motion/react";
-import "../../sass/sign-up.scss";
+import "../../sass/pages/sign-up.scss";
 
 export default function SignUp() {
     const signupFormVariant = {

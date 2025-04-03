@@ -1,5 +1,5 @@
 import { Outlet, Link } from "react-router-dom";
-import "../../sass/navbar.scss";
+import "../../sass/pages/navbar.scss";
 
 export default function Navbar() {
     return (
