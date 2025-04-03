@@ -154,6 +154,35 @@ paths:
                     description: Pesan error
               example:
                 error: "Internal server error"
+  /signout:
+    post:
+      summary: Logout pengguna
+      description: Mengeluarkan pengguna dari sesi aktif
+      responses:
+        '200':
+          description: Logout berhasil
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Pesan sukses
+              example:
+                message: "Logout successful"
+        '500':
+          description: Kesalahan server internal
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Pesan error
+              example:
+                error: "Internal server error"
   /search:
     post:
       summary: Mencari resep berdasarkan bahan
