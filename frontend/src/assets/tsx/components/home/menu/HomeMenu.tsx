@@ -14,7 +14,7 @@ export default function HomeMenu() {
                 />
             </form>
             <div className="home__menu__food-rec">
-                <h1>Yuk Cobain Resep ini</h1>
+                <h2>Yuk Cobain Resep ini</h2>
                 <div className="home__menu__food-rec__container">
                     <HomeMenuFoodRecContainerItem />
                     <HomeMenuFoodRecContainerItem />
@@ -22,6 +22,10 @@ export default function HomeMenu() {
                 </div>
             </div>
             <div className="home__menu__food-list">
+                <HomeMenuFoodListItem />
+                <HomeMenuFoodListItem />
+                <HomeMenuFoodListItem />
+                <HomeMenuFoodListItem />
                 <HomeMenuFoodListItem />
                 <HomeMenuFoodListItem />
                 <HomeMenuFoodListItem />
