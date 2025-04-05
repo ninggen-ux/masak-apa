@@ -1,5 +1,6 @@
 const Hapi = require("@hapi/hapi");
 const authRoutes = require("./routes/auth");
+const setupAuthListener = require("./utils/authListener");
 
 
 const init = async () => {
@@ -19,4 +20,5 @@ const init = async () => {
   console.log("Server running on %s", server.info.uri);
 };
 
+setupAuthListener();
 init();
