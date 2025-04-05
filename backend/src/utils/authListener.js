@@ -1,11 +1,13 @@
 const supabase = require("./supabase");
 
-const setupAuthListener = async () => {
-  const { data } = supabase.auth.onAuthStateChange((event, session) => {
+const setupAuthListener = (server) => {
+  supabase.auth.onAuthStateChange((event, session) => {
     console.log(`Auth event: ${event}`);
     if (event === "INITIAL_SESSION") {
       console.log("Initial session detected");
-    } else if (event === "SIGNED_IN") {
+    } else if (event === "SIGNED_IN" && session) {
+      const token = session.access_token;
+      console.log("Session stored:", token);
       console.log("User signed in:", session.user);
     } else if (event === "SIGNED_OUT") {
       console.log("User signed out");
