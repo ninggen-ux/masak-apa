@@ -3,96 +3,53 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHandPointLeft } from "@fortawesome/free-regular-svg-icons";
 import { motion } from "motion/react";
+import { FormEvent, ChangeEvent, useState } from "react";
+import {
+    loginFormVariant,
+    loginFormH1Variant,
+    loginFormInputVariant,
+    loginFormInputItemVariant,
+    loginFormInputItemForgetPassword,
+    loginFormButtonVariant,
+    loginFormButtonSubmitVariant,
+    loginFormButtonPVariant,
+} from "../components/login/LoginVariant.tsx";
 import "../../sass/pages/login.scss";
 
 export default function Login() {
-    const loginFormVariant = {
-        initial: {},
-        animate: {
-            transition: {
-                staggerChildren: 1,
-            },
-        },
-    };
+    interface Login {
+        email: string;
+        password: string;
+    }
 
-    const loginFormH1Variant = {
-        initial: {
-            opacity: 0,
-            scale: 0.9,
-        },
-        animate: {
-            opacity: 1,
-            scale: 1,
-            transition: {
-                duration: 1,
-            },
-        },
-    };
+    const [loginForm, setLoginForm] = useState<Login>({
+        email: "",
+        password: "",
+    });
 
-    const loginFormInputVariant = {
-        initial: {},
-        animate: {
-            transition: {
-                staggerChildren: 0.2,
-            },
-        },
-    };
+    async function submitLoginForm(e: FormEvent) {
+        e.preventDefault();
+        try {
+            const response = await fetch("http://localhost:3000/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(loginForm),
+            });
+            const responseJson = await response.json();
+            console.log(responseJson);
+        } catch (err) {
+            console.error(err);
+        }
+    }
 
-    const loginFormInputItemVariant = {
-        initial: {
-            opacity: 0,
-            x: -15,
-        },
-        animate: {
-            opacity: 1,
-            x: 0,
-            transition: {
-                delayChildren: 0.2,
-            },
-        },
-    };
-
-    const loginFormInputItemForgetPassword = {
-        initial: {
-            opacity: 0,
-            x: -15,
-        },
-        animate: {
-            opacity: 1,
-            x: 0,
-        },
-    };
-
-    const loginFormButtonVariant = {
-        initial: {},
-        animate: {
-            transition: {
-                staggerChildren: 0.3,
-            },
-        },
-    };
-
-    const loginFormButtonSubmitVariant = {
-        initial: {
-            opacity: 0,
-            scale: 0.9,
-        },
-        animate: {
-            opacity: 1,
-            scale: 1,
-        },
-    };
-
-    const loginFormButtonPVariant = {
-        initial: {
-            opacity: 0,
-            scale: 0.9,
-        },
-        animate: {
-            opacity: 1,
-            scale: 1,
-        },
-    };
+    function formInputChangeHandler(e: ChangeEvent<HTMLInputElement>) {
+        const { value, name } = e.target;
+        setLoginForm((prevState) => {
+            return { ...prevState, [name]: value };
+        });
+    }
 
     return (
         <div className="login">
@@ -102,6 +59,7 @@ export default function Login() {
                 variants={loginFormVariant}
                 initial="initial"
                 animate="animate"
+                onSubmit={submitLoginForm}
             >
                 <motion.h1 variants={loginFormH1Variant}>Login</motion.h1>
                 <motion.div
@@ -113,14 +71,28 @@ export default function Login() {
                         variants={loginFormInputItemVariant}
                     >
                         <label htmlFor="email">Email</label>
-                        <input type="text" id="email" />
+                        <input
+                            type="text"
+                            id="email"
+                            name="email"
+                            onChange={formInputChangeHandler}
+                            autoComplete="email"
+                            value={loginForm.email}
+                        />
                     </motion.div>
                     <motion.div
                         className="login__form__input__item"
                         variants={loginFormInputItemVariant}
                     >
                         <label htmlFor="password">Password</label>
-                        <input type="password" id="password" />
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            onChange={formInputChangeHandler}
+                            autoComplete="current-password"
+                            value={loginForm.password}
+                        />
                         <motion.div
                             className="login__form__input__item__forget-password"
                             variants={loginFormInputItemForgetPassword}

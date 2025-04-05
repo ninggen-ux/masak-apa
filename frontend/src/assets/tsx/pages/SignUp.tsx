@@ -3,82 +3,60 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHandPointLeft } from "@fortawesome/free-regular-svg-icons";
 import { motion } from "motion/react";
+import { ChangeEvent, FormEvent, useState } from "react";
+import {
+    signupFormVariant,
+    signupFormH1Variant,
+    signupFormInputVariant,
+    signupFormInputItemVariant,
+    signupFormButtonVariant,
+    signupFormButtonSubmitVariant,
+    signupFormButtonPVariant,
+} from "../components/signup/SignUpVariant.tsx";
 import "../../sass/pages/sign-up.scss";
 
 export default function SignUp() {
-    const signupFormVariant = {
-        initial: {},
-        animate: {
-            transition: {
-                staggerChildren: 1,
-            },
-        },
-    };
+    interface SignupForm {
+        username: string;
+        email: string;
+        password: string;
+        confirmPassword: string;
+    }
 
-    const signupFormH1Variant = {
-        initial: {
-            opacity: 0,
-            scale: 0.9,
-        },
-        animate: {
-            opacity: 1,
-            scale: 1,
-            transition: {
-                duration: 1,
-            },
-        },
-    };
+    const [signupForm, setSignupForm] = useState<SignupForm>({
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+    });
 
-    const signupFormInputVariant = {
-        initial: {},
-        animate: {
-            transition: {
-                staggerChildren: 0.2,
-            },
-        },
-    };
+    async function submitSignupForm(e: FormEvent) {
+        e.preventDefault();
+        try {
+            const response = await fetch("http://localhost:3000/signup", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    username: signupForm.username,
+                    email: signupForm.email,
+                    password: signupForm.password,
+                }),
+            });
+            const responseJson = await response.json();
+            console.log(responseJson);
+        } catch (err) {
+            console.error(err);
+        }
+    }
 
-    const signupFormInputItemVariant = {
-        initial: {
-            opacity: 0,
-            x: -15,
-        },
-        animate: {
-            opacity: 1,
-            x: 0,
-        },
-    };
-
-    const signupFormButtonVariant = {
-        initial: {},
-        animate: {
-            transition: {
-                staggerChildren: 0.3,
-            },
-        },
-    };
-
-    const signupFormButtonSubmitVariant = {
-        initial: {
-            opacity: 0,
-            scale: 0.9,
-        },
-        animate: {
-            opacity: 1,
-            scale: 1,
-        },
-    };
-
-    const signupFormButtonPVariant = {
-        initial: {
-            opacity: 0,
-            scale: 0.9,
-        },
-        animate: {
-            opacity: 1,
-            scale: 1,
-        },
-    };
+    function formInputChangeHandler(e: ChangeEvent<HTMLInputElement>) {
+        const { value, name } = e.target;
+        setSignupForm((prevState) => {
+            return { ...prevState, [name]: value };
+        });
+    }
 
     return (
         <div className="signup">
@@ -87,6 +65,7 @@ export default function SignUp() {
                 variants={signupFormVariant}
                 initial="initial"
                 animate="animate"
+                onSubmit={submitSignupForm}
             >
                 <motion.h1 variants={signupFormH1Variant}>Sign Up</motion.h1>
                 <motion.div
@@ -98,21 +77,42 @@ export default function SignUp() {
                         variants={signupFormInputItemVariant}
                     >
                         <label htmlFor="username">Username</label>
-                        <input type="text" id="username" />
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            value={signupForm.username}
+                            autoComplete="username"
+                            onChange={formInputChangeHandler}
+                        />
                     </motion.div>
                     <motion.div
                         className="signup__form__input__item"
                         variants={signupFormInputItemVariant}
                     >
                         <label htmlFor="email">Email</label>
-                        <input type="text" id="email" />
+                        <input
+                            type="text"
+                            id="email"
+                            name="email"
+                            value={signupForm.email}
+                            autoComplete="email"
+                            onChange={formInputChangeHandler}
+                        />
                     </motion.div>
                     <motion.div
                         className="signup__form__input__item"
                         variants={signupFormInputItemVariant}
                     >
                         <label htmlFor="password">Password</label>
-                        <input type="password" id="password" />
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            value={signupForm.password}
+                            autoComplete="new-password"
+                            onChange={formInputChangeHandler}
+                        />
                     </motion.div>
                     <motion.div
                         className="signup__form__input__item"
@@ -121,7 +121,14 @@ export default function SignUp() {
                         <label htmlFor="confirm-password">
                             Confirm Password
                         </label>
-                        <input type="password" id="confirm-password" />
+                        <input
+                            type="password"
+                            id="confirm-password"
+                            name="confirmPassword"
+                            autoComplete="new-password"
+                            value={signupForm.confirmPassword}
+                            onChange={formInputChangeHandler}
+                        />
                     </motion.div>
                 </motion.div>
                 <motion.div
