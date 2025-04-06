@@ -37,7 +37,7 @@ paths:
               email: "john.doe@example.com"
               password: "SecurePass123!"
       responses:
-        '201':
+        "201":
           description: Pengguna berhasil didaftarkan
           content:
             application/json:
@@ -58,7 +58,7 @@ paths:
                 id: 1
                 username: "johndoe"
                 email: "john.doe@example.com"
-        '400':
+        "400":
           description: Permintaan salah (misalnya, email sudah terdaftar atau password tidak cocok)
           content:
             application/json:
@@ -70,7 +70,7 @@ paths:
                     description: Pesan error
               example:
                 error: "Email already exists or passwords do not match"
-        '500':
+        "500":
           description: Kesalahan server internal
           content:
             application/json:
@@ -109,7 +109,7 @@ paths:
               email: "john.doe@example.com"
               password: "SecurePass123!"
       responses:
-        '200':
+        "200":
           description: Login berhasil
           content:
             application/json:
@@ -130,7 +130,7 @@ paths:
                 id: 1
                 username: "johndoe"
                 email: "john.doe@example.com"
-        '401':
+        "401":
           description: Kredensial salah (email atau password tidak valid)
           content:
             application/json:
@@ -142,7 +142,7 @@ paths:
                     description: Pesan error
               example:
                 error: "Invalid email or password"
-        '500':
+        "500":
           description: Kesalahan server internal
           content:
             application/json:
@@ -159,7 +159,7 @@ paths:
       summary: Logout pengguna
       description: Mengeluarkan pengguna dari sesi aktif
       responses:
-        '200':
+        "200":
           description: Logout berhasil
           content:
             application/json:
@@ -171,7 +171,7 @@ paths:
                     description: Pesan sukses
               example:
                 message: "Logout successful"
-        '500':
+        "500":
           description: Kesalahan server internal
           content:
             application/json:
@@ -183,6 +183,71 @@ paths:
                     description: Pesan error
               example:
                 error: "Internal server error"
+  /auth/status:
+    get:
+      summary: Verifikasi status autentikasi pengguna
+      description: Memeriksa apakah pengguna saat ini terautentikasi dan mendapatkan informasi sesi
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: Token autentikasi pengguna
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Pengguna terautentikasi
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  event:
+                    type: string
+                    description: Event yang terjadi
+                  session:
+                    type: object
+                    description: Informasi sesi pengguna
+                    properties:
+                      access_token:
+                        type: string
+                        description: Token akses pengguna
+                      user:
+                        type: object
+                        description: Informasi pengguna
+                        properties:
+                          id:
+                            type: string
+                            description: User ID.
+                          email:
+                            type: string
+                            description: User email.
+        "401":
+          description: Pengguna tidak terautentikasi
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                  message:
+                    type: string
+                    example: Token is missing or invalid.
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: An unexpected error occurred.
   /search:
     post:
       summary: Mencari resep berdasarkan bahan
@@ -205,7 +270,7 @@ paths:
             example:
               ingredients: ["pisang", "apel", "kelapa"]
       responses:
-        '200':
+        "200":
           description: Pencarian berhasil, mengembalikan daftar resep atau informasi
           content:
             application/json:
@@ -237,7 +302,7 @@ paths:
                   name: "Salad Buah"
                   ingredients: ["pisang", "apel", "yogurt"]
                   instructions: "Potong buah, campur dengan yogurt, sajikan dingin."
-        '500':
+        "500":
           description: Kesalahan server internal
           content:
             application/json:
@@ -254,7 +319,7 @@ paths:
       summary: Mendapatkan rekomendasi resep
       description: Mengembalikan daftar resep yang direkomendasikan berdasarkan bahan yang sering dicari oleh pengguna
       responses:
-        '200':
+        "200":
           description: Rekomendasi berhasil diambil
           content:
             application/json:
