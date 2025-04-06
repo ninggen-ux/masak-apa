@@ -123,8 +123,61 @@ const signoutHandler = async (request, h) => {
     .code(200);
 };
 
+const authStatusHandler = async (request, h) => {
+  const token = request.headers.authorization?.replace("Bearer ", "");
+
+  if (!token) {
+    return h
+      .response({
+        status: "fail",
+        message: "Token is missing or invalid",
+      })
+      .code(401);
+  }
+
+  const { data, error } = await supabase.auth.getUser(token);
+  if (error) {
+    console.error(error);
+    return h
+      .response({
+        status: "fail",
+        message: error.message,
+      })
+      .code(error.status === 400 ? 400 : 500);
+  }
+
+  let event = null;
+  supabase.auth.onAuthStateChange((authEvent, session) => {
+    if (authEvent === "SIGNED_IN") {
+      console.log("User signed in");
+      event = "SIGNED_IN";
+    } else if (authEvent === "SIGNED_OUT") {
+      console.log("User signed out");
+      event = "SIGNED_OUT";
+    }
+  });
+
+  const session = { access_token: token, user };
+  
+  return h
+    .response({
+      event: event,
+      session: {
+        access_token: session.access_token,
+        user: {
+          id: session.user.id,
+          email: session.user.email,
+        },
+      },
+    })
+    .header("Authorization", `Bearer ${token}`)
+    .state("session", token)
+    .code(200);
+}
+
 module.exports = {
   loginHandler,
   registerHandler,
   signoutHandler,
+  authStatusHandler,
 };
