@@ -22,6 +22,8 @@ const init = async () => {
       name: "session",
       password: process.env.COOKIE_PASSWORD,
       isSecure: false,
+      isSameSite: "Strict",
+      isHttpOnly: true,
       path: "/",
       ttl: 24 * 60 * 60 * 1000,
     },
