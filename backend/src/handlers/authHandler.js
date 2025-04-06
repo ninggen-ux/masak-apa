@@ -26,6 +26,11 @@ const loginHandler = async (request, h) => {
       .code(error.status === 400 ? 400 : 500);
   }
 
+  if (data.user) {
+    const token = data.session.access_token;
+    h.state("session", token);
+  }
+
   return h
     .response({
       status: "success",
@@ -52,7 +57,6 @@ const registerHandler = async (request, h) => {
       .code(400);
   }
 
-  // Proceed with registration
   const { data, error } = await supabase.auth.signUp({
     email: email.toLowerCase(),
     password,
@@ -64,7 +68,6 @@ const registerHandler = async (request, h) => {
   });
 
   if (error) {
-    // Handle duplicate email error
     if (error.message.includes("User already registered")) {
       return h
         .response({
@@ -111,6 +114,7 @@ const signoutHandler = async (request, h) => {
       .code(error.status === 400 ? 400 : 500);
   }
 
+  h.unstate("session");
   return h
     .response({
       status: "success",
