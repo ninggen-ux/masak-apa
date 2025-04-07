@@ -32,6 +32,27 @@
                 label {
                     width: 85%;
                     color: main.$fifth-color;
+                    // button dibawah ini hanya khusus untuk bagian password
+                    button {
+                        background-color: transparent;
+                        border: none;
+                        position: relative;
+                        cursor: pointer;
+                        .signup__form__input__item__label__icon {
+                            color: main.$fourth-color;
+                        }
+                        span {
+                            top: 0;
+                            left: 20px;
+                            width: 10rem;
+                            position: absolute;
+                            background-color: main.$fourth-color;
+                            border-radius: 3px;
+                            padding: 0.5rem;
+                            color: white;
+                            z-index: 1;
+                        }
+                    }
                 }
                 input {
                     width: 100%;

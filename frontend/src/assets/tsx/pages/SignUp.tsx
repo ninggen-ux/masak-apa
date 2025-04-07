@@ -2,8 +2,11 @@ import img from "../../img/auth-img/1.png";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHandPointLeft } from "@fortawesome/free-regular-svg-icons";
+import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { motion } from "motion/react";
 import { ChangeEvent, FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import {
     signupFormVariant,
     signupFormH1Variant,
@@ -16,6 +19,7 @@ import {
 import "../../sass/pages/sign-up.scss";
 
 export default function SignUp() {
+    const navigate = useNavigate();
     interface SignupForm {
         username: string;
         email: string;
@@ -30,9 +34,39 @@ export default function SignUp() {
         confirmPassword: "",
     });
 
+    const [passwordRequirement, setPasswordRequirement] =
+        useState<boolean>(false);
+
     async function submitSignupForm(e: FormEvent) {
         e.preventDefault();
         try {
+            /**
+             * Loading di letakkan di bawah error handler karenan,
+             * saking cepatnya pengecekkan error, Swal tidak
+             * sampai merender Loading.
+             */
+            if (!signupForm.username) {
+                throw new Error("Mohon mengisi bagian Username!!!");
+            } else if (!signupForm.email) {
+                throw new Error("Mohon mengisi bagian Email!!!");
+            } else if (!signupForm.password) {
+                throw new Error("Mohon mengisi bagian Password!!!");
+            } else if (!signupForm.confirmPassword) {
+                throw new Error("Mohon mengisi bagian Confirm Password!!!");
+            } else if (signupForm.password !== signupForm.confirmPassword) {
+                throw new Error("Password dan Confirm Password, tidak sama!!!");
+            }
+
+            Swal.fire({
+                title: "Loading...",
+                text: "Tolong tunggu sebentar",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                },
+            });
+
             const response = await fetch("http://localhost:3000/signup", {
                 method: "POST",
                 headers: {
@@ -44,9 +78,50 @@ export default function SignUp() {
                     password: signupForm.password,
                 }),
             });
+
             const responseJson = await response.json();
+
+            if (responseJson.status === "success") {
+                Swal.fire({
+                    icon: "success",
+                    title: "Berhasil mebambahkan akun",
+                    text: responseJson.message,
+                }).then((result) => {
+                    if (result.isConfirmed || result.isDismissed) {
+                        navigate("/login");
+                    }
+                });
+            } else if (responseJson.status === "fail") {
+                throw new Error(responseJson.message);
+            }
+
             console.log(responseJson);
-        } catch (err) {
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                /**
+                 * Harus mengecek apakah err itu instance dari Error
+                 * jika tidak, message tidak akan di kenali oleh TS.
+                 */
+                if (err.message !== undefined) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Terjadi Kesalahan",
+                        text: err.message,
+                    });
+                } else if (typeof err === "string") {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Terjadi Kesalahan",
+                        text: err,
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Terjadi Kesalahan",
+                        text: "Terjadi error yang tidak terduga",
+                    });
+                }
+            }
             console.error(err);
         }
     }
@@ -92,7 +167,7 @@ export default function SignUp() {
                     >
                         <label htmlFor="email">Email</label>
                         <input
-                            type="text"
+                            type="email"
                             id="email"
                             name="email"
                             value={signupForm.email}
@@ -104,7 +179,31 @@ export default function SignUp() {
                         className="signup__form__input__item"
                         variants={signupFormInputItemVariant}
                     >
-                        <label htmlFor="password">Password</label>
+                        <label htmlFor="password">
+                            Password{" "}
+                            <motion.button
+                                type="button"
+                                whileTap={{ scale: 0.9 }}
+                                onMouseOver={() => setPasswordRequirement(true)}
+                                onMouseOut={() => setPasswordRequirement(false)}
+                                onClick={() =>
+                                    setPasswordRequirement((prevState) => {
+                                        return !prevState;
+                                    })
+                                }
+                            >
+                                <FontAwesomeIcon
+                                    className="signup__form__input__item__label__icon"
+                                    icon={faCircleExclamation}
+                                />
+                                {passwordRequirement && (
+                                    <span>
+                                        Minimal 8 karakter, huruf besar dan
+                                        kecil, angka dan karakter khusus
+                                    </span>
+                                )}
+                            </motion.button>
+                        </label>
                         <input
                             type="password"
                             id="password"
