@@ -163,7 +163,6 @@ const authStatusHandler = async (request, h) => {
     .response({
       event: event,
       session: {
-        access_token: session.access_token,
         user: {
           id: session.user.id,
           email: session.user.email,
