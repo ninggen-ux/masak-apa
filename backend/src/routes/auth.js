@@ -2,6 +2,7 @@ const {
   loginHandler,
   registerHandler,
   signoutHandler,
+  authStatusHandler,
 } = require("../handlers/authHandler");
 
 const routes = [
@@ -29,6 +30,14 @@ const routes = [
       auth: false,
     },
   },
+  {
+    method: "GET",
+    path: "/auth/status",
+    handler: authStatusHandler,
+    options: {
+      auth: false,
+    },
+  }
 ];
 
 module.exports = routes;

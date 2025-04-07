@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHandPointLeft } from "@fortawesome/free-regular-svg-icons";
 import { motion } from "motion/react";
 import { ChangeEvent, FormEvent, useState } from "react";
-import Swal from "sweetalert2";
 import {
     signupFormVariant,
     signupFormH1Variant,
@@ -34,33 +33,6 @@ export default function SignUp() {
     async function submitSignupForm(e: FormEvent) {
         e.preventDefault();
         try {
-            /**
-             * Loading di letakkan di bawah error handler karenan,
-             * saking cepatnya pengecekkan error, Swal tidak
-             * sampai merender Loading.
-             */
-            if (!signupForm.username) {
-                throw new Error("Mohon mengisi bagian Username!!!");
-            } else if (!signupForm.email) {
-                throw new Error("Mohon mengisi bagian Email!!!");
-            } else if (!signupForm.password) {
-                throw new Error("Mohon mengisi bagian Password!!!");
-            } else if (!signupForm.confirmPassword) {
-                throw new Error("Mohon mengisi bagian Confirm Password!!!");
-            } else if (signupForm.password !== signupForm.confirmPassword) {
-                throw new Error("Password dan Confirm Password, tidak sama!!!");
-            }
-
-            Swal.fire({
-                title: "Loading...",
-                text: "Tolong tunggu sebentar",
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                },
-            });
-
             const response = await fetch("http://localhost:3000/signup", {
                 method: "POST",
                 headers: {
@@ -72,42 +44,9 @@ export default function SignUp() {
                     password: signupForm.password,
                 }),
             });
-
             const responseJson = await response.json();
-
-            Swal.fire({
-                icon: "success",
-                title: "Berhasil mebambahkan akun",
-                text: responseJson.message,
-            });
-
             console.log(responseJson);
-        } catch (err: unknown) {
-            if (err instanceof Error) {
-                /**
-                 * Harus mengecek apakah err itu instance dari Error
-                 * jika tidak, message tidak akan di kenali oleh TS.
-                 */
-                if (err.message !== undefined) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Terjadi Kesalahan",
-                        text: err.message,
-                    });
-                } else if (typeof err === "string") {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Terjadi Kesalahan",
-                        text: err,
-                    });
-                } else {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Terjadi Kesalahan",
-                        text: "Terjadi error yang tidak terduga",
-                    });
-                }
-            }
+        } catch (err) {
             console.error(err);
         }
     }
@@ -153,7 +92,7 @@ export default function SignUp() {
                     >
                         <label htmlFor="email">Email</label>
                         <input
-                            type="email"
+                            type="text"
                             id="email"
                             name="email"
                             value={signupForm.email}
