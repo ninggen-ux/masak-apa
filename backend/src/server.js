@@ -10,7 +10,10 @@ const init = async () => {
     host: "localhost",
     routes: {
       cors: {
-        origin: ["*"],
+        origin: process.env.CORS_ORIGIN.split(","),
+        credentials: true,
+        additionalHeaders: ["Authorization", "Content-Type"],
+        additionalExposedHeaders: ["Authorization"],
       },
     },
   });
