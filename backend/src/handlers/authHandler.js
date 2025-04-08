@@ -40,30 +40,30 @@ const loginHandler = async (request, h) => {
       path: "/",
       ttl: 24 * 60 * 60 * 1000,
     });
-    h.header("Authorization", `Bearer ${token}`);
 
-    h.state("user_data", userData, {
-      isHttpOnly: false,
-      isSecure: false,
-      path: "/",
-      ttl: 24 * 60 * 60 * 1000,
-    });
+    return h
+      .response({
+        status: "success",
+        message: "User logged in successfully",
+        data: {
+          user: {
+            id: data.user.id,
+            username: data.user.user_metadata.username,
+            email: data.user.email,
+          },
+        },
+      })
+      .header("Authorization", `Bearer ${token}`)
+      .header("User-Data", JSON.stringify(userData))
+      .code(200);
   }
 
   return h
     .response({
-      status: "success",
-      message: "User logged in successfully",
-      data: {
-        user: {
-          id: data.user.id,
-          username: data.user.user_metadata.username,
-          email: data.user.email,
-        },
-      },
+      status: "fail",
+      message: "User not found",
     })
-    .header("User-Data", JSON.stringify(userData))
-    .code(200);
+    .code(404);
 };
 
 const registerHandler = async (request, h) => {
