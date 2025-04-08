@@ -46,12 +46,17 @@ export default function App() {
         }
 
         getUserData();
-    }, [isUserLogin]);
+    }, [isUserLogin, userData]);
 
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Navbar userData={userData} />}>
+                <Route
+                    path="/"
+                    element={
+                        <Navbar userData={userData} setUserData={setUserData} />
+                    }
+                >
                     <Route index element={<Home />} />
                 </Route>
                 <Route

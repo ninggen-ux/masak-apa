@@ -1,9 +1,11 @@
 import { Outlet, Link } from "react-router-dom";
+import { Dispatch, SetStateAction } from "react";
 import Swal from "sweetalert2";
 import "../../sass/pages/navbar.scss";
 
 interface Props {
     userData: string;
+    setUserData: Dispatch<SetStateAction<string>>;
 }
 
 export default function Navbar(props: Props) {
@@ -27,6 +29,7 @@ export default function Navbar(props: Props) {
             const responseJson = await response.json();
 
             if (responseJson.status === "success") {
+                props.setUserData("");
                 Swal.fire({
                     icon: "success",
                     title: "Berhasil kaluar dari akun",
