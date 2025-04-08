@@ -40,6 +40,7 @@ const loginHandler = async (request, h) => {
       path: "/",
       ttl: 24 * 60 * 60 * 1000,
     });
+    h.header("Authorization", `Bearer ${token}`);
 
     h.state("user_data", userData, {
       isHttpOnly: false,
