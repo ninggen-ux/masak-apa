@@ -23,7 +23,7 @@ const routes = [
     },
   },
   {
-    method: "POST",
+    method: "DELETE",
     path: "/signout",
     handler: signoutHandler,
     options: {
