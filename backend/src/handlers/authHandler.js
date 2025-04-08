@@ -28,10 +28,6 @@ const loginHandler = async (request, h) => {
 
     if (data.user) {
         const token = data.session.access_token;
-        h.state("session", token);
-    }
-    if (data.user) {
-        const token = data.session.access_token;
         const userData = {
             id: data.user.id,
             email: data.user.email,
