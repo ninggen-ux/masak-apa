@@ -77,7 +77,6 @@ export default function SignUp() {
                     email: signupForm.email,
                     password: signupForm.password,
                 }),
-                credentials: "include",
             });
 
             const responseJson = await response.json();
