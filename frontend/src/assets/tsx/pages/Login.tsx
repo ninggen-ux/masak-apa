@@ -3,7 +3,13 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHandPointLeft } from "@fortawesome/free-regular-svg-icons";
 import { motion } from "motion/react";
-import { FormEvent, ChangeEvent, useState } from "react";
+import {
+    FormEvent,
+    ChangeEvent,
+    useState,
+    Dispatch,
+    SetStateAction,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import {
@@ -18,7 +24,11 @@ import {
 } from "../components/login/LoginVariant.tsx";
 import "../../sass/pages/login.scss";
 
-export default function Login() {
+interface Props {
+    setIsUserLogin: Dispatch<SetStateAction<string>>;
+}
+
+export default function Login(props: Props) {
     const navigate = useNavigate();
     interface Login {
         email: string;
@@ -65,6 +75,7 @@ export default function Login() {
             const responseJson = await response.json();
 
             if (responseJson.status === "success") {
+                props.setIsUserLogin(responseJson.message);
                 Swal.fire({
                     icon: "success",
                     title: "Berhasil masuk ke akun",
