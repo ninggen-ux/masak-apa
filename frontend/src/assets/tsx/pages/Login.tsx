@@ -60,6 +60,7 @@ export default function Login() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(loginForm),
+                credentials: "include",
             });
             const responseJson = await response.json();
 
