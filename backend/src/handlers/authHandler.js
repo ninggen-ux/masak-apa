@@ -9,7 +9,7 @@ const loginHandler = async (request, h) => {
         message: "Please fill in all fields",
       })
       .code(400);
-  }
+  };
 
   const { data, error } = await supabase.auth.signInWithPassword({
     email: email.toLowerCase(),
@@ -40,7 +40,6 @@ const loginHandler = async (request, h) => {
       path: "/",
       ttl: 24 * 60 * 60 * 1000,
     });
-    h.header("Authorization", `Bearer ${token}`);
 
     h.state("user_data", userData, {
       isHttpOnly: false,
@@ -62,6 +61,7 @@ const loginHandler = async (request, h) => {
         },
       },
     })
+    .header("Authorization", `Bearer ${token}`)
     .header("User-Data", JSON.stringify(userData))
     .code(200);
 };
