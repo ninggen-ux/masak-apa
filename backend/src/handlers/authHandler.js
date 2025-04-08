@@ -30,6 +30,29 @@ const loginHandler = async (request, h) => {
         const token = data.session.access_token;
         h.state("session", token);
     }
+    if (data.user) {
+        const token = data.session.access_token;
+        const userData = {
+            id: data.user.id,
+            email: data.user.email,
+            username: data.user.user_metadata.username,
+        };
+
+        h.state("session", token, {
+            isHttpOnly: true,
+            isSecure: false,
+            path: "/",
+            ttl: 24 * 60 * 60 * 1000,
+        });
+        h.header("Authorization", `Bearer ${token}`);
+
+        h.state("user_data", userData, {
+            isHttpOnly: false,
+            isSecure: false,
+            path: "/",
+            ttl: 24 * 60 * 60 * 1000,
+        });
+    }
 
     return h
         .response({
@@ -43,6 +66,7 @@ const loginHandler = async (request, h) => {
                 },
             },
         })
+        .header("User-Data", JSON.stringify(userData))
         .code(200);
 };
 
@@ -159,17 +183,21 @@ const authStatusHandler = async (request, h) => {
 
     const session = { access_token: token, user };
 
+    const userData = {
+        id: data.user.id,
+        email: data.user.email,
+        username: data.user.user_metadata.username,
+    };
+
     return h
         .response({
             event: event,
             session: {
-                user: {
-                    id: session.user.id,
-                    email: session.user.email,
-                },
+                user: userData,
             },
         })
-        .header("Authorization", `Bearer ${token}`)
+        .header("Authorization", `Bearer ${session.access_token}`)
+        .header("User-Data", JSON.stringify(userData))
         .state("session", token)
         .code(200);
 };
