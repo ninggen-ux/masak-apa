@@ -15,10 +15,24 @@ export default function Otp() {
 
     console.log(otpForm);
 
-    function submitOtpForm(e: FormEvent) {
+    async function submitOtpForm(e: FormEvent) {
         e.preventDefault();
 
-        console.log(otpForm);
+        try {
+            const response = await fetch("http://localhost:3000/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(otpForm),
+            }); // Untuk sekarang URL belum lengkap, silahkan lengkapi sendiri.
+
+            const responseJson = response.json();
+
+            console.log(responseJson);
+        } catch (err) {
+            console.error(err);
+        }
     }
 
     function formInputChangeHandler(e: ChangeEvent<HTMLInputElement>) {
