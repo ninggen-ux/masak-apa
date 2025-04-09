@@ -23,13 +23,13 @@ export default function Otp() {
         }
 
         try {
-            const response = await fetch("http://localhost:3000/", {
+            const response = await fetch("http://localhost:3000/otp", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(otpForm),
-            }); // Untuk sekarang URL belum lengkap, silahkan lengkapi sendiri.
+            });
 
             const responseJson = response.json();
 
