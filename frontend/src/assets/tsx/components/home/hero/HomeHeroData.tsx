@@ -37,26 +37,26 @@ const foodImgList: FoodImgList[] = [
 const foodTagLine: FoodTagLine[] = [
     {
         id: 1,
-        title: "Cook with What You Have",
-        text: "Smart recipe suggestions based on your ingredients!",
+        title: "Masak dengan Bahan yang Ada",
+        text: "Rekomendasi resep cerdas berdasarkan bahan yang kamu miliki!",
         active: true,
     },
     {
         id: 2,
-        title: "AI-Powered Recipes",
-        text: "No more wasted ingredients—get the perfect meal ideas instantly!",
+        title: "Resep dengan Kecerdasan AI",
+        text: "Tidak ada lagi bahan terbuang—dapatkan ide masakan sempurna secara instan!",
         active: true,
     },
     {
         id: 3,
-        title: "From Leftovers to Delicacies",
-        text: "Turn what's in your kitchen into a delicious dish!",
+        title: "Makanan Sisa Menjadi Lezat",
+        text: "Ubah bahan sisa jadi hidangan menggugah selera!",
         active: true,
     },
     {
         id: 4,
-        title: "Find Recipes, Effortlessly",
-        text: "Enter your ingredients, let AI do the rest!",
+        title: "Temukan Resep dengan Mudah",
+        text: "Masukkan bahan yang kamu punya, biarkan AI bekerja untukmu!",
         active: true,
     },
 ];

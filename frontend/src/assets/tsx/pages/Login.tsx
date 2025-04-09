@@ -173,7 +173,7 @@ export default function Login(props: Props) {
                             className="login__form__input__item__forget-password"
                             variants={loginFormInputItemForgetPassword}
                         >
-                            <button type="button">Forget Password?</button>
+                            <Link to="/otp">Lupa Password?</Link>
                         </motion.div>
                     </motion.div>
                 </motion.div>
@@ -189,13 +189,12 @@ export default function Login(props: Props) {
                         Login
                     </motion.button>
                     <motion.p variants={loginFormButtonPVariant}>
-                        Dosen't have account yet?{" "}
-                        <Link to="/sign-up">SignUp</Link>
+                        Belum punya akun? <Link to="/sign-up">SignUp</Link>
                     </motion.p>
                 </motion.div>
                 <Link className="login__form__back-button" to="/">
                     <FontAwesomeIcon icon={faHandPointLeft} />
-                    Back
+                    Kembali
                 </Link>
             </motion.form>
         </div>

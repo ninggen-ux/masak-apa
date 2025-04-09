@@ -151,7 +151,7 @@ export default function SignUp() {
                         className="signup__form__input__item"
                         variants={signupFormInputItemVariant}
                     >
-                        <label htmlFor="username">Username</label>
+                        <label htmlFor="username">Nama pengguna</label>
                         <input
                             type="text"
                             id="username"
@@ -218,7 +218,7 @@ export default function SignUp() {
                         variants={signupFormInputItemVariant}
                     >
                         <label htmlFor="confirm-password">
-                            Confirm Password
+                            Konfirmasi Password
                         </label>
                         <input
                             type="password"
@@ -242,12 +242,12 @@ export default function SignUp() {
                         sign up
                     </motion.button>
                     <motion.p variants={signupFormButtonPVariant}>
-                        Already have account? <Link to="/login">Login</Link>
+                        Sudah punya Akun? <Link to="/login">Login</Link>
                     </motion.p>
                 </motion.div>
                 <Link className="signup__form__back-button" to="/">
                     <FontAwesomeIcon icon={faHandPointLeft} />
-                    Back
+                    Kembali
                 </Link>
             </motion.form>
             <img src={img} alt="Makanan" />

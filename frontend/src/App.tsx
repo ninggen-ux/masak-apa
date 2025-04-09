@@ -2,6 +2,8 @@ import Home from "./assets/tsx/pages/Home.tsx";
 import Navbar from "./assets/tsx/pages/Navbar.tsx";
 import Login from "./assets/tsx/pages/Login.tsx";
 import SignUp from "./assets/tsx/pages/SignUp.tsx";
+import Otp from "./assets/tsx/pages/Otp.tsx";
+import OtpResetPass from "./assets/tsx/components/otp/OtpResetPass.tsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./assets/sass/pages/main.scss";
@@ -64,6 +66,8 @@ export default function App() {
                     element={<Login setIsUserLogin={setIsUserLogin} />}
                 />
                 <Route path="/sign-up" element={<SignUp />} />
+                <Route path="/otp" element={<Otp />} />
+                <Route path="/otp-reset-pass" element={<OtpResetPass />} />
             </Routes>
         </BrowserRouter>
     );

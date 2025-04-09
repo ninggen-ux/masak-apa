@@ -42,12 +42,11 @@
                 .login__form__input__item__forget-password {
                     width: 85%;
                     padding-top: 0.5rem;
-                    button {
-                        border: none;
-                        background-color: transparent;
+                    a {
                         text-decoration: underline;
                         font-size: 1em;
                         cursor: pointer;
+                        color: main.$fifth-color;
                     }
                 }
             }
