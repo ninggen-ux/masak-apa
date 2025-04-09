@@ -19,7 +19,7 @@ export default function Otp() {
         e.preventDefault();
 
         try {
-            const response = await fetch("http://localhost:3000/", {
+            const response = await fetch("http://localhost:3000/otp", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
