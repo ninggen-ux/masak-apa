@@ -351,7 +351,7 @@ paths:
                   name: "Salad Buah"
                   ingredients: ["pisang", "apel", "yogurt"]
                   instructions: "Potong buah, campur dengan yogurt, sajikan dingin."
-  /changePassword:
+  /otp:
     post:
       summary: Mengirim permintaan reset password
       description: Mengirim email untuk mereset password pengguna
@@ -398,6 +398,66 @@ paths:
                   message:
                     type: string
                     example: Email dibutuhkan
+        "500":
+          description: Kesalahan server internal
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Kesalahan server internal
+  /otp-change-password:
+    post:
+      summary: Mengubah password pengguna
+      description: Mengubah password pengguna dengan permintaan reset password
+      requestBody:
+        description: Permintaan reset password yang berisi password baru
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  format: password
+                  description: Password baru
+              required:
+                - password
+            example:
+              password: "NewPassword123!"
+      responses:
+        "200":
+          description: Password berhasil diubah
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Password berhasil diubah
+        "400":
+          description: Permintaan tidak valid (password kosong)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                  message:
+                    type: string
+                    example: Password dibutuhkan
         "500":
           description: Kesalahan server internal
           content:
