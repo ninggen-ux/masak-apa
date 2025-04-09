@@ -25,7 +25,7 @@ export default function Otp() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(otpForm),
-            }); // Untuk sekarang URL belum lengkap, silahkan lengkapi sendiri.
+            });
 
             const responseJson = response.json();
 

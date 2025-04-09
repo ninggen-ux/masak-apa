@@ -3,6 +3,8 @@ const {
   registerHandler,
   signoutHandler,
   authStatusHandler,
+  otpChangePasswordHandler,
+  changePasswordHandler,
 } = require("../handlers/authHandler");
 
 const routes = [
@@ -34,6 +36,22 @@ const routes = [
     method: "GET",
     path: "/auth/status",
     handler: authStatusHandler,
+    options: {
+      auth: false,
+    },
+  },
+  {
+    method: "POST",
+    path: "/otp",
+    handler: otpChangePasswordHandler,
+    options: {
+      auth: false,
+    },
+  },
+  {
+    method: "POST",
+    path: "/otp-change-password",
+    handler: changePasswordHandler,
     options: {
       auth: false,
     },
