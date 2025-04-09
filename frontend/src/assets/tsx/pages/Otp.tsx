@@ -2,6 +2,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHandPointLeft } from "@fortawesome/free-regular-svg-icons";
+import Swal from "sweetalert2";
 import "../../sass/pages/Otp.scss";
 
 export default function Otp() {
@@ -18,11 +19,21 @@ export default function Otp() {
     async function submitOtpForm(e: FormEvent) {
         e.preventDefault();
 
-        if (!otpForm.email) {
-            throw new Error("Mohon masukkan email anda!!!");
-        }
-
         try {
+            if (!otpForm.email) {
+                throw new Error("Mohon masukkan email anda!!!");
+            }
+
+            Swal.fire({
+                title: "Loading...",
+                text: "Tolong tunggu sebentar",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                },
+            });
+
             const response = await fetch("http://localhost:3000/otp", {
                 method: "POST",
                 headers: {
@@ -31,10 +42,49 @@ export default function Otp() {
                 body: JSON.stringify(otpForm),
             });
 
-            const responseJson = response.json();
+            const responseJson = await response.json();
+
+            if (responseJson.status === "success") {
+                Swal.fire({
+                    icon: "success",
+                    title: "Berhasil mengirimkan email",
+                    text: `${responseJson.message}, silahkan pencet OK untuk beralih ke Gmail`,
+                }).then((result) => {
+                    if (result.isConfirmed || result.isDismissed) {
+                        window.open("https://mail.google.com/", "_blank");
+                    }
+                });
+            } else if (responseJson.status === "fail") {
+                throw new Error(responseJson.message);
+            }
 
             console.log(responseJson);
         } catch (err) {
+            if (err instanceof Error) {
+                /**
+                 * Harus mengecek apakah err itu instance dari Error
+                 * jika tidak, message tidak akan di kenali oleh TS.
+                 */
+                if (err.message !== undefined) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Terjadi Kesalahan",
+                        text: err.message,
+                    });
+                } else if (typeof err === "string") {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Terjadi Kesalahan",
+                        text: err,
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Terjadi Kesalahan",
+                        text: "Terjadi error yang tidak terduga",
+                    });
+                }
+            }
             console.error(err);
         }
     }
