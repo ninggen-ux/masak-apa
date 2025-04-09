@@ -18,6 +18,10 @@ export default function Otp() {
     async function submitOtpForm(e: FormEvent) {
         e.preventDefault();
 
+        if (!otpForm.email) {
+            throw new Error("Mohon masukkan email anda!!!");
+        }
+
         try {
             const response = await fetch("http://localhost:3000/", {
                 method: "POST",
