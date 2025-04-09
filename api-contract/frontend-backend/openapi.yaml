@@ -351,3 +351,63 @@ paths:
                   name: "Salad Buah"
                   ingredients: ["pisang", "apel", "yogurt"]
                   instructions: "Potong buah, campur dengan yogurt, sajikan dingin."
+  /changePassword:
+    post:
+      summary: Mengirim permintaan reset password
+      description: Mengirim email untuk mereset password pengguna
+      requestBody:
+        description: Email pengguna yang ingin mereset password
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: Alamat email pengguna
+              required:
+                - email
+            example:
+              email: "john.doe@example.com"
+      responses:
+        "200":
+          description: Email URL reset password berhasil dikirim
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Email untuk mengganti password telah dikirim
+        "400":
+          description: Permintaan tidak valid (email kosong)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: fail
+                  message:
+                    type: string
+                    example: Email dibutuhkan
+        "500":
+          description: Kesalahan server internal
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Kesalahan server internal
