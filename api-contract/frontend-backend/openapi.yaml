@@ -412,7 +412,7 @@ paths:
                     type: string
                     example: Kesalahan server internal
   /otp-change-password:
-    post:
+    put:
       summary: Mengubah password pengguna
       description: Mengubah password pengguna dengan permintaan reset password
       requestBody:
