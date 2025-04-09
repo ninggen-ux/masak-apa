@@ -1,1 +1,79 @@
 @use "./main.scss";
+
+.otp {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: url("./src/assets/img/salat-bg.jpg") center / cover no-repeat;
+    position: relative;
+    .otp__container {
+        width: clamp(20rem, 40%, 40%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 1rem;
+        gap: 2rem;
+        border-radius: 5px;
+        backdrop-filter: blur(10px);
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+        .otp__container__text {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            h1 {
+                text-align: center;
+                color: main.$fifth-color;
+            }
+            p {
+                text-align: center;
+                color: main.$fifth-color;
+            }
+        }
+        .otp__container__email {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            input {
+                width: 100%;
+                padding: 0.5rem;
+                border-radius: 5px;
+            }
+            button {
+                width: 100%;
+                background-color: main.$fourth-color;
+                color: white;
+                border: none;
+                padding: 0.5rem;
+                border-radius: 5px;
+                font-size: 1em;
+                font-weight: 500;
+                cursor: pointer;
+            }
+        }
+    }
+    .otp__back-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        top: 1rem;
+        left: 1.5rem;
+        gap: 0.3rem;
+        padding: 0.4rem 0.8rem;
+        border-radius: 30px;
+        background-color: main.$fourth-color;
+        color: main.$fifth-color;
+        font-size: 1.3em;
+        text-decoration: none;
+        color: white;
+    }
+}

@@ -1,4 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHandPointLeft } from "@fortawesome/free-regular-svg-icons";
 import "../../sass/pages/Otp.scss";
 
 export default function Otp() {
@@ -27,21 +30,31 @@ export default function Otp() {
 
     return (
         <div className="otp">
-            <div className="otp__text">
-                <h1>Lupa password anda?</h1>
-                <p>
-                    Tenang, kami siap membantu! Masukkan email Anda dan kami
-                    akan mengirimkan tautan reset password.
-                </p>
+            <div className="otp__container">
+                <div className="otp__container__text">
+                    <h1>Lupa password anda?</h1>
+                    <p>
+                        Tenang, kami siap membantu! Masukkan email Anda dan kami
+                        akan mengirimkan tautan reset password.
+                    </p>
+                </div>
+                <form
+                    className="otp__container__email"
+                    onSubmit={submitOtpForm}
+                >
+                    <input
+                        type="email"
+                        name="email"
+                        onChange={formInputChangeHandler}
+                        placeholder="Masukkan email anda"
+                    />
+                    <button type="submit">Kirim email</button>
+                </form>
             </div>
-            <form className="otp__email" onSubmit={submitOtpForm}>
-                <input
-                    type="email"
-                    name="email"
-                    onChange={formInputChangeHandler}
-                />
-                <button type="submit">Kirim email</button>
-            </form>
+            <Link className="otp__back-button" to="/login">
+                <FontAwesomeIcon icon={faHandPointLeft} />
+                Kembali
+            </Link>
         </div>
     );
 }
