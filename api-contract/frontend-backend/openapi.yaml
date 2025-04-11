@@ -290,18 +290,18 @@ paths:
                       items:
                         type: string
                       description: Daftar bahan yang dibutuhkan
-                    instructions:
+                    url:
                       type: string
-                      description: Instruksi pembuatan
+                      description: URL resep
               example:
                 - id: 1
                   name: "Smoothie Tropis"
                   ingredients: ["pisang", "kelapa", "mangga"]
-                  instructions: "Blender semua bahan dengan es hingga halus."
+                  url: "https://example.com/smoothie-tropis"
                 - id: 2
                   name: "Salad Buah"
                   ingredients: ["pisang", "apel", "yogurt"]
-                  instructions: "Potong buah, campur dengan yogurt, sajikan dingin."
+                  url: "https://example.com/salad-buah"
         "500":
           description: Kesalahan server internal
           content:
@@ -339,18 +339,18 @@ paths:
                       items:
                         type: string
                       description: Daftar bahan yang dibutuhkan
-                    instructions:
+                    url:
                       type: string
-                      description: Instruksi pembuatan
+                      description: URL resep
               example:
                 - id: 1
                   name: "Smoothie Tropis"
                   ingredients: ["pisang", "kelapa", "mangga"]
-                  instructions: "Blender semua bahan dengan es hingga halus."
+                  url: "https://example.com/smoothie-tropis"
                 - id: 2
                   name: "Salad Buah"
                   ingredients: ["pisang", "apel", "yogurt"]
-                  instructions: "Potong buah, campur dengan yogurt, sajikan dingin."
+                  url: "https://example.com/salad-buah"
   /otp:
     post:
       summary: Mengirim permintaan reset password
