@@ -178,99 +178,99 @@ const authStatusHandler = async (request, h) => {
   }
 };
 
-const otpChangePasswordHandler = async (request, h) => {
-  const { email } = request.payload;
+// const otpChangePasswordHandler = async (request, h) => {
+//   const { email } = request.payload;
 
-  if (!email) {
-    return h
-      .response({
-        status: "fail",
-        message: "Email dibutuhkan",
-      })
-      .code(400);
-  }
+//   if (!email) {
+//     return h
+//       .response({
+//         status: "fail",
+//         message: "Email dibutuhkan",
+//       })
+//       .code(400);
+//   }
 
-  try {
-    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: "http://localhost:5173/otp-reset-pass", // Ganti dengan URL yang sesuai
-    });
+//   try {
+//     const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+//       redirectTo: "http://localhost:5173/otp-reset-pass", // Ganti dengan URL yang sesuai
+//     });
 
-    if (error) {
-      console.error("Error from Supabase:", error);
-      return h
-        .response({
-          status: "fail",
-          message: error.message,
-        })
-        .code(error.status === 400 ? 400 : 500);
-    }
+//     if (error) {
+//       console.error("Error from Supabase:", error);
+//       return h
+//         .response({
+//           status: "fail",
+//           message: error.message,
+//         })
+//         .code(error.status === 400 ? 400 : 500);
+//     }
 
-    return h
-      .response({
-        status: "success",
-        message: "Email untuk mengganti password telah dikirim",
-      })
-      .code(200);
-  } catch (err) {
-    console.error("Unexpected error:", err);
-    return h
-      .response({
-        status: "error",
-        message: "Kesalahan server internal",
-      })
-      .code(500);
-    };
-};
+//     return h
+//       .response({
+//         status: "success",
+//         message: "Email untuk mengganti password telah dikirim",
+//       })
+//       .code(200);
+//   } catch (err) {
+//     console.error("Unexpected error:", err);
+//     return h
+//       .response({
+//         status: "error",
+//         message: "Kesalahan server internal",
+//       })
+//       .code(500);
+//     };
+// };
 
-const changePasswordHandler = async (request, h) => {
-  const { new_password } = request.payload;
+// const changePasswordHandler = async (request, h) => {
+//   const { new_password } = request.payload;
 
-  if (!password) {
-    return h
-      .response({
-        status: "fail",
-        message: "Password dibutuhkan",
-      })
-      .code(400);
-  }
+//   if (!password) {
+//     return h
+//       .response({
+//         status: "fail",
+//         message: "Password dibutuhkan",
+//       })
+//       .code(400);
+//   }
 
-  try {
-    const { data, error } = await supabase.auth.updateUser({
-      new_password,
-    });
+//   try {
+//     const { data, error } = await supabase.auth.updateUser({
+//       new_password,
+//     });
 
-    if (error) {
-      console.error("Error from Supabase:", error);
-      return h
-        .response({
-          status: "fail",
-          message: error.message,
-        })
-        .code(error.status === 400 ? 400 : 500);
-    }
+//     if (error) {
+//       console.error("Error from Supabase:", error);
+//       return h
+//         .response({
+//           status: "fail",
+//           message: error.message,
+//         })
+//         .code(error.status === 400 ? 400 : 500);
+//     }
 
-    return h
-      .response({
-        status: "success",
-        message: "Password berhasil diubah",
-      })
-      .code(200);
-  } catch (err) {
-    console.error("Unexpected error:", err);
-    return h
-      .response({
-        status: "error",
-        message: "Kesalahan server internal",
-      })
-      .code(500);
-  }
-}
+//     return h
+//       .response({
+//         status: "success",
+//         message: "Password berhasil diubah",
+//       })
+//       .code(200);
+//   } catch (err) {
+//     console.error("Unexpected error:", err);
+//     return h
+//       .response({
+//         status: "error",
+//         message: "Kesalahan server internal",
+//       })
+//       .code(500);
+//   }
+// }
 
 module.exports = {
   loginHandler,
   registerHandler,
   signoutHandler,
   authStatusHandler,
-  otpChangePasswordHandler,
-  changePasswordHandler,
+  // otpChangePasswordHandler,
+  // changePasswordHandler,
 };
