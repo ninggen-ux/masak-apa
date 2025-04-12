@@ -30,12 +30,12 @@ interface Props {
 
 export default function Login(props: Props) {
     const navigate = useNavigate();
-    interface Login {
+    interface LoginForm {
         email: string;
         password: string;
     }
 
-    const [loginForm, setLoginForm] = useState<Login>({
+    const [loginForm, setLoginForm] = useState<LoginForm>({
         email: "",
         password: "",
     });
