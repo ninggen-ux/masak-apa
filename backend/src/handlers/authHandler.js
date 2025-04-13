@@ -11,27 +11,27 @@ const loginHandler = async (request, h) => {
       .code(400);
   }
 
-  const { data, error } = await supabase.auth.signInWithPassword({
+  const { data: user, error: userError } = await supabase.auth.signInWithPassword({
     email: email.toLowerCase(),
     password,
   });
 
-  if (error) {
-    console.error(error);
+  if (userError) {
+    console.error(userError);
     return h
       .response({
         status: "fail",
-        message: error.message,
+        message: userError.message,
       })
-      .code(error.status === 400 ? 400 : 500);
+      .code(userError.status === 400 ? 400 : 500);
   }
 
-  if (data.user) {
-    const token = data.session.access_token;
+  if (user.user) {
+    const token = user.session.access_token;
     const userData = {
-      id: data.user.id,
-      email: data.user.email,
-      username: data.user.user_metadata.username,
+      id: user.user.id,
+      email: user.user.email,
+      username: user.user.user_metadata.username,
     };
 
     h.state("session", token, {
@@ -48,7 +48,7 @@ const loginHandler = async (request, h) => {
         message: "User berhasil login",
         data: {
           user: {
-            username: data.user.user_metadata.username,
+            username: user.user.user_metadata.username,
           },
         },
       })
@@ -76,7 +76,7 @@ const registerHandler = async (request, h) => {
       .code(400);
   }
 
-  const { data, error } = await supabase.auth.signUp({
+  const { data: user, error: userError } = await supabase.auth.signUp({
     email: email.toLowerCase(),
     password,
     options: {
@@ -86,8 +86,8 @@ const registerHandler = async (request, h) => {
     },
   });
 
-  if (error) {
-    if (error.message.includes("User already registered")) {
+  if (userError) {
+    if (userError.message.includes("User already registered")) {
       return h
         .response({
           status: "fail",
@@ -96,11 +96,10 @@ const registerHandler = async (request, h) => {
         .code(400);
     }
 
-    console.error(error);
     return h
       .response({
         status: "fail",
-        message: error.message,
+        message: userError.message,
       })
       .code(500);
   }
@@ -148,23 +147,23 @@ const authStatusHandler = async (request, h) => {
         .code(401);
     }
 
-    const { data, error } = await supabase.auth.getUser(token);
+    const { data: user, error: userError } = await supabase.auth.getUser(token);
 
-    if (error) {
-      console.error("Error from Supabase:", error);
+    if (userError) {
+      console.error("authStatusHandler - Error from Supabase:", userError);
       return h
         .response({
           status: "fail",
-          message: error.message,
+          message: userError.message,
         })
-        .code(error.status === 400 ? 400 : 500);
+        .code(userError.status === 400 ? 400 : 500);
     }
 
     return h
       .response({
         status: "success",
         message: "User terdaftar",
-        data: data.user,
+        data: user.user,
       })
       .code(200);
   } catch (err) {
@@ -177,6 +176,24 @@ const authStatusHandler = async (request, h) => {
       .code(500);
   }
 };
+
+const getUserIdByToken = async (request) => {
+  const token = request.state.session;
+
+  if (!token) {
+    console.error("Token is missing or invalid");
+    return null;
+  }
+
+  const { data: user, error: userError } = await supabase.auth.getUser(token);
+
+  if (userError) {
+    console.error("getUserIdByToken - Error from Supabase:", userError);
+    return null;
+  }
+
+  return user.user.id;
+}
 
 // const otpChangePasswordHandler = async (request, h) => {
 //   const { email } = request.payload;
@@ -271,6 +288,7 @@ module.exports = {
   registerHandler,
   signoutHandler,
   authStatusHandler,
+  getUserIdByToken,
   // otpChangePasswordHandler,
   // changePasswordHandler,
 };
