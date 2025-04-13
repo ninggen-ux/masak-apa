@@ -57,6 +57,15 @@ const getFoodByIngredients = async (request, h) => {
     const ingredients = request.payload;
     const userId = await getUserIdByToken(request);
 
+    if (!userId) {
+      return h
+        .response({
+          status: "fail",
+          message: "User tidak terdaftar",
+        })
+        .code(401);
+    }
+
     if (!Array.isArray(ingredients) || ingredients.length === 0) {
       return h
         .response({
