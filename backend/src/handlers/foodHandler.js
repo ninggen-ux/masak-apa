@@ -1,14 +1,8 @@
 const supabase = require("../utils/supabase");
-const {
-  getUserIdByToken,
-} = require("./authHandler");
+const { getUserIdByToken } = require("./authHandler");
 
 const addIngredientHistory = async (userId, ingredients) => {
-  const normalizedIngredients = ingredients.map((ingredient) =>
-    ingredient.trim().toLowerCase()
-  );
-
-  for (const ingredient of normalizedIngredients) {
+  for (const ingredient of ingredients) {
     const { error: rpcError } = await supabase.rpc(
       "increment_ingredient_count",
       {
@@ -26,23 +20,37 @@ const addIngredientHistory = async (userId, ingredients) => {
   }
 };
 
-const fetchFoodsByIngredients = async (ingredients) => {
-  const normalizedIngredients = ingredients.map((ingredient) =>
-    ingredient.trim().toLowerCase()
-  );
+const getAllFood = async (request, h) => {
+  try{
+    const { data: foodsData, error: foodError } = await supabase
+      .from("foods")
+      .select("id, name, ingredients, url");
 
-  const { data: foodsData, error: foodError } = await supabase
-    .from("foods")
-    .select("id, name, ingredients, url")
-    .contains("ingredients", normalizedIngredients);
+    if (foodError) {
+      return h
+        .response({
+          status: "fail",
+          message: foodError.message,
+        })
+        .code(500);
+    }
 
-  if (foodError) {
-    console.error(foodError);
-    throw new Error(foodError.message);
+    return h
+      .response({
+        status: "success",
+        data: foodsData,
+      })
+      .code(200);
+  } catch (err) {
+    console.error("Unexpected error:", err);
+    return h
+      .response({
+        status: "error",
+        message: "Kesalahan pada server",
+      })
+      .code(500);
   }
-
-  return foodsData;
-};
+}
 
 const getFoodByIngredients = async (request, h) => {
   try {
@@ -58,9 +66,25 @@ const getFoodByIngredients = async (request, h) => {
         .code(400);
     }
 
-    await addIngredientHistory(userId, ingredients);
+    const normalizedIngredients = ingredients.map((ingredients) =>
+      ingredients.trim().toLowerCase()
+    );
 
-    const foodsData = await fetchFoodsByIngredients(ingredients);
+    await addIngredientHistory(userId, normalizedIngredients);
+
+    const { data: foodsData, error: foodError } = await supabase
+      .from("foods")
+      .select("id, name, ingredients, url")
+      .contains("ingredients", normalizedIngredients);
+
+    if (foodError) {
+      return h
+        .response({
+          status: "fail",
+          message: foodError.message,
+        })
+        .code(500);
+    }
 
     if (foodsData.length === 0) {
       return h
@@ -120,7 +144,21 @@ const getFoodRecomendations = async (request, h) => {
 
     const ingredients = ingredientsData.map((item) => item.ingredient);
 
-    const foodsData = await fetchFoodsByIngredients(ingredients);
+    const { data: foodsData, error: foodError } = await supabase
+      .from("foods")
+      .select("id, name, ingredients, url")
+      .contains("ingredients", ingredients)
+      .limit(5);
+
+    if (foodError) {
+      console.error(foodError);
+      return h
+        .response({
+          status: "fail",
+          message: foodError.message,
+        })
+        .code(500);
+    }
 
     if (foodsData.length === 0) {
       return h
