@@ -62,15 +62,11 @@
                 border-radius: 12px;
                 padding: 1rem;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                transition: transform 0.2s ease-in-out;
                 text-decoration: none;
                 cursor: pointer;
                 width: 100%;
                 max-width: 220px;
                 text-align: center;
-                &:hover {
-                    transform: scale(1.05);
-                }
                 img {
                     width: 100%;
                     max-width: 180px;
@@ -93,6 +89,7 @@
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         justify-items: center;
+        align-items: start;
         gap: 1rem;
         padding-top: 2rem;
         .home__menu__food-list__item {
@@ -106,11 +103,8 @@
             flex-direction: column;
             justify-content: space-between;
             box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s ease-in-out;
-            &:hover {
-                transform: scale(1.03);
-            }
-            div {
+            gap: 1rem;
+            .home__menu__food-list__item__text {
                 h2 {
                     font-size: 1.3rem;
                     font-weight: bold;
@@ -120,9 +114,24 @@
                     color: main.$fourth-color;
                 }
             }
+            .home__menu__food-list__item__ingredients {
+                display: flex;
+                flex-direction: column;
+                gap: 0.2rem;
+                align-items: flex-start;
+                button {
+                    background-color: transparent;
+                    border: none;
+                    font-size: 1em;
+                    cursor: pointer;
+                    font-weight: 500;
+                }
+                ul {
+                    padding-left: 1.5rem;
+                    font-size: 0.9em;
+                }
+            }
             p {
-                margin-top: 1rem;
-                font-size: 1rem;
                 font-weight: bold;
                 color: #333;
             }

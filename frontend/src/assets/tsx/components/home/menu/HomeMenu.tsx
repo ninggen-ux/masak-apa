@@ -8,13 +8,31 @@ export default function HomeMenu() {
         searchFood: string[];
     }
 
+    interface HomeMenuFoodsData {
+        id: string;
+        ingredients: string[];
+        name: string;
+        url: string;
+    }
+
     const [homeMenuForm, setHomeMenuForm] = useState<HomeMenuForm>({
         searchFood: [""],
     });
 
-    const timeOutRef = useRef<number | undefined>(undefined);
+    const [homeMenuFoodsData, setHomeMenuFoodsData] = useState<
+        HomeMenuFoodsData[]
+    >([
+        {
+            id: "",
+            ingredients: [""],
+            name: "",
+            url: "",
+        },
+    ]);
 
-    console.log(homeMenuForm);
+    console.log(homeMenuFoodsData);
+
+    const timeOutRef = useRef<number | undefined>(undefined);
 
     function formInputChangeHandler(eventOne: ChangeEvent<HTMLInputElement>) {
         const { name, value } = eventOne.target;
@@ -48,12 +66,41 @@ export default function HomeMenu() {
 
                 const responseJson = await response.json();
 
-                console.log(responseJson);
+                if (responseJson.status === "success") {
+                    setHomeMenuFoodsData(responseJson.foodsData);
+                } else if (responseJson.status === "fail") {
+                    setHomeMenuFoodsData([
+                        {
+                            id: "",
+                            ingredients: [""],
+                            name: "",
+                            url: "",
+                        },
+                    ]);
+                }
+                /**
+                 * Handler errornya dibuat seperti di atas, karena jika tidak ada
+                 * data maka react akan error dan jika tidak mempertihungkan "fail"
+                 * maka data yang seharusnya sudah terhapus akan tetap ada.
+                 */
             } catch (err) {
+                // Catch akan di hapus saat Production
                 console.error(err);
             }
         }, 1000);
     }
+
+    const homeMenuFoodListItemMap = homeMenuFoodsData.map((item) => {
+        return (
+            <HomeMenuFoodListItem
+                key={item.id}
+                ingredients={item.ingredients}
+                name={item.name}
+                url={item.url}
+                homeMenuFormSearchFood={homeMenuForm.searchFood}
+            />
+        );
+    });
 
     return (
         <section className="home__menu">
@@ -68,23 +115,18 @@ export default function HomeMenu() {
                 />
             </form>
             <div className="home__menu__food-rec">
-                <h2>Yuk Cobain Resep ini</h2>
+                <h2>Yuk Cobain Resep ini!</h2>
                 <div className="home__menu__food-rec__container">
                     <HomeMenuFoodRecContainerItem />
                     <HomeMenuFoodRecContainerItem />
                     <HomeMenuFoodRecContainerItem />
                 </div>
             </div>
-            <div className="home__menu__food-list">
-                <HomeMenuFoodListItem />
-                <HomeMenuFoodListItem />
-                <HomeMenuFoodListItem />
-                <HomeMenuFoodListItem />
-                <HomeMenuFoodListItem />
-                <HomeMenuFoodListItem />
-                <HomeMenuFoodListItem />
-                <HomeMenuFoodListItem />
-            </div>
+            {homeMenuFoodsData[0].id !== "" && (
+                <div className="home__menu__food-list">
+                    {homeMenuFoodListItemMap}
+                </div>
+            )}
         </section>
     );
 }
