@@ -26,6 +26,7 @@ export default function HomeMenuFoodListItem(props: Props) {
     const homeMenuFoodListItemIngredientsMap = props.ingredients.map((item) => {
         return (
             <HomeMenuFoodListItemIngredientsUlLi
+                key={item}
                 ingredient={item}
                 isIncludes={props.homeMenuFormSearchFood.includes(item)}
             />

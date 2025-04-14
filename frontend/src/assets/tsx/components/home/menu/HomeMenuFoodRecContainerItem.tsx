@@ -1,16 +1,29 @@
-import img from "../../../../img/hero-img/1.png";
 import { motion } from "motion/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDown } from "@fortawesome/free-solid-svg-icons/faAngleDown";
 
-export default function HomeMenuFoodRecContainerItem() {
+interface Props {
+    ingredients: string[];
+    name: string;
+    url: string;
+}
+
+export default function HomeMenuFoodRecContainerItem(props: Props) {
     return (
-        <motion.a
+        <motion.div
             className="home__menu__food-rec__container__item"
-            href="#"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
         >
-            <img src={img} alt="Gambar Makanan" />
-            <h2>Nama Menu</h2>
-        </motion.a>
+            <motion.a href={props.url} whileHover={{ color: "#e50046" }}>
+                {props.name}
+            </motion.a>
+            <div className="home__menu__food-rec__container__item__ingredients">
+                <button>
+                    Bahan - Bahan <FontAwesomeIcon icon={faAngleDown} />
+                </button>
+                <ul></ul>
+            </div>
+        </motion.div>
     );
 }

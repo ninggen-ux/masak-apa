@@ -1,6 +1,7 @@
-import HomeMenuFoodListItem from "./HomeMenuFoodListItem";
-import HomeMenuFoodRecContainerItem from "./HomeMenuFoodRecContainerItem.tsx";
+import HomeMenuFoodListItem from "./HomeMenuFoodListItem.tsx";
+import HomeMenuFoodRec from "./HomeMenuFoodRec.tsx";
 import { ChangeEvent, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import "../../../../sass/components/home/home__menu.scss";
 
 export default function HomeMenu() {
@@ -14,6 +15,8 @@ export default function HomeMenu() {
         name: string;
         url: string;
     }
+
+    const navigate = useNavigate();
 
     const [homeMenuForm, setHomeMenuForm] = useState<HomeMenuForm>({
         searchFood: [""],
@@ -66,14 +69,19 @@ export default function HomeMenu() {
 
                 const responseJson = await response.json();
 
+                console.log(responseJson);
+
                 if (responseJson.status === "success") {
                     setHomeMenuFoodsData(responseJson.foodsData);
+                } else if (responseJson.message === "User tidak terdaftar") {
+                    navigate("/login");
                 } else if (responseJson.status === "fail") {
                     setHomeMenuFoodsData([
                         {
                             id: "",
                             ingredients: [""],
-                            name: "",
+                            name: responseJson.message,
+                            // Error code diletakkan disini, untuk menghemat line code.
                             url: "",
                         },
                     ]);
@@ -114,19 +122,14 @@ export default function HomeMenu() {
                     placeholder="Contoh: nasi, ayam, telur"
                 />
             </form>
-            <div className="home__menu__food-rec">
-                <h2>Yuk Cobain Resep ini!</h2>
-                <div className="home__menu__food-rec__container">
-                    <HomeMenuFoodRecContainerItem />
-                    <HomeMenuFoodRecContainerItem />
-                    <HomeMenuFoodRecContainerItem />
-                </div>
+            <HomeMenuFoodRec />
+            <div className="home__menu__food-list">
+                {homeMenuFoodsData[0].id === "" ? (
+                    <h3>{homeMenuFoodsData[0].name}</h3>
+                ) : (
+                    homeMenuFoodListItemMap
+                )}
             </div>
-            {homeMenuFoodsData[0].id !== "" && (
-                <div className="home__menu__food-list">
-                    {homeMenuFoodListItemMap}
-                </div>
-            )}
         </section>
     );
 }
