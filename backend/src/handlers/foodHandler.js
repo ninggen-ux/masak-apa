@@ -24,7 +24,7 @@ const getAllFood = async (request, h) => {
   try{
     const { data: foodsData, error: foodError } = await supabase
       .from("foods")
-      .select("id, name, ingredients, url");
+      .select("id, title, ner, link");
 
     if (foodError) {
       return h
@@ -83,7 +83,7 @@ const getFoodByIngredients = async (request, h) => {
 
     const { data: foodsData, error: foodError } = await supabase
       .from("foods")
-      .select("id, name, ingredients, url")
+      .select("id, title, ner, link")
       .contains("ingredients", normalizedIngredients);
 
     if (foodError) {
@@ -155,9 +155,9 @@ const getFoodRecomendations = async (request, h) => {
 
     const { data: foodsData, error: foodError } = await supabase
       .from("foods")
-      .select("id, name, ingredients, url")
+      .select("id, title, ner, link")
       .contains("ingredients", ingredients)
-      .limit(5);
+      .limit(3);
 
     if (foodError) {
       console.error(foodError);

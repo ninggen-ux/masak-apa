@@ -150,7 +150,7 @@ const authStatusHandler = async (request, h) => {
     const { data: user, error: userError } = await supabase.auth.getUser(token);
 
     if (userError) {
-      console.error("authStatusHandler - Error from Supabase:", userError);
+      // console.error("authStatusHandler - Error from Supabase:", userError);
       return h
         .response({
           status: "fail",
