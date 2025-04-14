@@ -75,16 +75,16 @@ const getFoodByIngredients = async (request, h) => {
         .code(400);
     }
 
-    const normalizedIngredients = ingredients.map((ingredients) =>
-      ingredients.trim().toLowerCase()
-    );
+    // const normalizedIngredients = ingredients.map((ingredients) =>
+    //   ingredients.trim().toLowerCase()
+    // );
 
-    await addIngredientHistory(userId, normalizedIngredients);
+    // await addIngredientHistory(userId, normalizedIngredients);
 
     const { data: foodsData, error: foodError } = await supabase
       .from("foods")
       .select("id, title, ner, link")
-      .contains("ingredients", normalizedIngredients);
+      .contains("ner", ingredients);
 
     if (foodError) {
       return h
@@ -156,7 +156,7 @@ const getFoodRecomendations = async (request, h) => {
     const { data: foodsData, error: foodError } = await supabase
       .from("foods")
       .select("id, title, ner, link")
-      .contains("ingredients", ingredients)
+      .contains("ner", ingredients)
       .limit(3);
 
     if (foodError) {
