@@ -1,7 +1,11 @@
 import HomeMenuFoodRecContainerItem from "./HomeMenuFoodRecContainerItem.tsx";
 import { useEffect, useState } from "react";
 
-export default function HomeMenuFoodRec() {
+interface Props {
+    userData: string;
+}
+
+export default function HomeMenuFoodRec(props: Props) {
     interface HomeMenuFoodRecData {
         id: string;
         ingredients: string[];
@@ -40,8 +44,7 @@ export default function HomeMenuFoodRec() {
                         {
                             id: "",
                             ingredients: [""],
-                            name: responseJson.message,
-                            // Error code diletakkan disini, untuk menghemat line code.
+                            name: "",
                             url: "",
                         },
                     ]);
@@ -54,7 +57,7 @@ export default function HomeMenuFoodRec() {
         }
 
         getHomeMenuFoodRec();
-    }, []);
+    }, [props.userData]);
 
     const homeMenuFoodRecContainerItemMap = homeMenuFoodRecData.map((item) => {
         return (
@@ -69,10 +72,14 @@ export default function HomeMenuFoodRec() {
 
     return (
         <div className="home__menu__food-rec">
-            <h2>Yuk Cobain Resep ini!</h2>
-            <div className="home__menu__food-rec__container">
-                {homeMenuFoodRecContainerItemMap}
-            </div>
+            {homeMenuFoodRecData[0].id !== "" && (
+                <>
+                    <h2>Yuk Cobain Resep ini!</h2>
+                    <div className="home__menu__food-rec__container">
+                        {homeMenuFoodRecContainerItemMap}
+                    </div>
+                </>
+            )}
         </div>
     );
 }

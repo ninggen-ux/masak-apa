@@ -4,7 +4,11 @@ import { ChangeEvent, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../../../sass/components/home/home__menu.scss";
 
-export default function HomeMenu() {
+interface Props {
+    userData: string;
+}
+
+export default function HomeMenu(props: Props) {
     interface HomeMenuForm {
         searchFood: string[];
     }
@@ -119,10 +123,10 @@ export default function HomeMenu() {
                     type="text"
                     name="searchFood"
                     onChange={formInputChangeHandler}
-                    placeholder="Contoh: nasi, ayam, telur"
+                    placeholder="Contoh: rice, chicken, egg"
                 />
             </form>
-            <HomeMenuFoodRec />
+            <HomeMenuFoodRec userData={props.userData} />
             <div className="home__menu__food-list">
                 {homeMenuFoodsData[0].id === "" ? (
                     <h3>{homeMenuFoodsData[0].name}</h3>

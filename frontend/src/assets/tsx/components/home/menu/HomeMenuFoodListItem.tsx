@@ -23,15 +23,16 @@ export default function HomeMenuFoodListItem(props: Props) {
      * di parent codenya sudah terlalu panjang.
      */
 
-    const homeMenuFoodListItemIngredientsMap = props.ingredients.map((item) => {
-        return (
-            <HomeMenuFoodListItemIngredientsUlLi
-                key={item}
-                ingredient={item}
-                isIncludes={props.homeMenuFormSearchFood.includes(item)}
-            />
-        );
-    });
+    const homeMenuFoodListItemIngredientsUlLiMap = props.ingredients.map(
+        (item) => {
+            return (
+                <HomeMenuFoodListItemIngredientsUlLi
+                    ingredient={item}
+                    isIncludes={props.homeMenuFormSearchFood.includes(item)}
+                />
+            );
+        }
+    );
 
     const homeMenuFoodListItemIngredientsUlVariants = {
         initial: {},
@@ -54,12 +55,14 @@ export default function HomeMenuFoodListItem(props: Props) {
             className="home__menu__food-list__item"
             whileHover={{ scale: 1.03 }}
         >
-            <div className="home__menu__food-list__item__text">
-                <h3>{props.name}</h3>
-                <a href={props.url} target="_blank">
-                    {props.url}
-                </a>
-            </div>
+            <motion.a
+                className="home__menu__food-list__item__text"
+                href={`https://${props.url}`}
+                target="_blank"
+                whileHover={{ color: "#e50046", textDecoration: "underline" }}
+            >
+                {props.name}
+            </motion.a>
             <div className="home__menu__food-list__item__ingredients">
                 <button
                     onClick={() => {
@@ -86,7 +89,7 @@ export default function HomeMenuFoodListItem(props: Props) {
                             animate="animate"
                             exit="exit"
                         >
-                            {homeMenuFoodListItemIngredientsMap}
+                            {homeMenuFoodListItemIngredientsUlLiMap}
                         </motion.ul>
                     )}
                 </AnimatePresence>

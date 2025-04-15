@@ -60,7 +60,7 @@ export default function App() {
                         <Navbar userData={userData} setUserData={setUserData} />
                     }
                 >
-                    <Route index element={<Home />} />
+                    <Route index element={<Home userData={userData} />} />
                 </Route>
                 <Route
                     path="/login"
