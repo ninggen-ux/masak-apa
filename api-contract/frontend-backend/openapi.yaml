@@ -269,6 +269,8 @@ paths:
                 - ingredients
             example:
               ingredients: ["pisang", "apel", "kelapa"]
+              page: 1
+              limit: 10
       responses:
         "200":
           description: Pencarian berhasil, mengembalikan daftar resep atau informasi
