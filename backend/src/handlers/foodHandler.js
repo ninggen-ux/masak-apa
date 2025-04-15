@@ -55,6 +55,7 @@ const getAllFood = async (request, h) => {
 const getFoodByIngredients = async (request, h) => {
   try {
     const ingredients = request.payload;
+    // const { page = 1, limit = 10 } = request.payload;
     const userId = await getUserIdByToken(request);
 
     if (!userId) {
@@ -79,12 +80,15 @@ const getFoodByIngredients = async (request, h) => {
       ingredients.trim().toLowerCase()
     );
 
-    // await addIngredientHistory(userId, normalizedIngredients);
+    await addIngredientHistory(userId, normalizedIngredients);
+
+    // const offset = (page - 1) * limit;
 
     const { data: foodsData, error: foodError } = await supabase
       .from("foods")
       .select("id, name, ingredients, url")
-      .contains("ingredients", normalizedIngredients);
+      .contains("ingredients", normalizedIngredients)
+      // .range(offset, offset + limit - 1);
 
     if (foodError) {
       return h
@@ -151,7 +155,7 @@ const getFoodRecomendations = async (request, h) => {
         .code(404);
     }
 
-    const ingredients = ingredientsData.map((item) => item.ingredient);
+    const ingredients = ingredientsData.map((item) => item.ingredients);
 
     const { data: foodsData, error: foodError } = await supabase
       .from("foods")
