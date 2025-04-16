@@ -123,7 +123,6 @@ const signoutHandler = async (request, h) => {
       })
       .code(200);
   } catch (err) {
-    console.error("Unexpected error:", err);
     return h
       .response({
         status: "error",
@@ -138,7 +137,6 @@ const authStatusHandler = async (request, h) => {
     const token = request.state.session;
 
     if (!token) {
-      console.error("Token is missing or invalid");
       return h
         .response({
           status: "fail",
@@ -150,7 +148,6 @@ const authStatusHandler = async (request, h) => {
     const { data: user, error: userError } = await supabase.auth.getUser(token);
 
     if (userError) {
-      // console.error("authStatusHandler - Error from Supabase:", userError);
       return h
         .response({
           status: "fail",
@@ -167,7 +164,6 @@ const authStatusHandler = async (request, h) => {
       })
       .code(200);
   } catch (err) {
-    console.error("Unexpected error:", err);
     return h
       .response({
         status: "error",
@@ -181,14 +177,12 @@ const getUserIdByToken = async (request) => {
   const token = request.state.session;
 
   if (!token) {
-    console.error("Token is missing or invalid");
     return null;
   }
 
   const { data: user, error: userError } = await supabase.auth.getUser(token);
 
   if (userError) {
-    console.error("getUserIdByToken - Error from Supabase:", userError);
     return null;
   }
 
