@@ -64,7 +64,6 @@ export default function Navbar(props: Props) {
                     });
                 }
             }
-            console.error(err);
         }
     }
 

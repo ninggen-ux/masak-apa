@@ -94,8 +94,6 @@ export default function SignUp() {
             } else if (responseJson.status === "fail") {
                 throw new Error(responseJson.message);
             }
-
-            console.log(responseJson);
         } catch (err: unknown) {
             if (err instanceof Error) {
                 /**
@@ -122,7 +120,6 @@ export default function SignUp() {
                     });
                 }
             }
-            console.error(err);
         }
     }
 

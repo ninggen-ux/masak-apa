@@ -37,8 +37,6 @@ export default function HomeMenu(props: Props) {
         },
     ]);
 
-    console.log(homeMenuFoodsData);
-
     const timeOutRef = useRef<number | undefined>(undefined);
 
     function formInputChangeHandler(eventOne: ChangeEvent<HTMLInputElement>) {
@@ -61,44 +59,37 @@ export default function HomeMenu(props: Props) {
         }
 
         timeOutRef.current = window.setTimeout(async () => {
-            try {
-                const response = await fetch("http://localhost:3000/search", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
+            const response = await fetch("http://localhost:3000/search", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(homeMenuFormTrim),
+                credentials: "include",
+            });
+
+            const responseJson = await response.json();
+
+            if (responseJson.status === "success") {
+                setHomeMenuFoodsData(responseJson.foodsData);
+            } else if (responseJson.message === "User tidak terdaftar") {
+                navigate("/login");
+            } else if (responseJson.status === "fail") {
+                setHomeMenuFoodsData([
+                    {
+                        id: "",
+                        ingredients: [""],
+                        name: responseJson.message,
+                        // Error code diletakkan disini, untuk menghemat line code.
+                        url: "",
                     },
-                    body: JSON.stringify(homeMenuFormTrim),
-                    credentials: "include",
-                });
-
-                const responseJson = await response.json();
-
-                console.log(responseJson);
-
-                if (responseJson.status === "success") {
-                    setHomeMenuFoodsData(responseJson.foodsData);
-                } else if (responseJson.message === "User tidak terdaftar") {
-                    navigate("/login");
-                } else if (responseJson.status === "fail") {
-                    setHomeMenuFoodsData([
-                        {
-                            id: "",
-                            ingredients: [""],
-                            name: responseJson.message,
-                            // Error code diletakkan disini, untuk menghemat line code.
-                            url: "",
-                        },
-                    ]);
-                }
-                /**
-                 * Handler errornya dibuat seperti di atas, karena jika tidak ada
-                 * data maka react akan error dan jika tidak mempertihungkan "fail"
-                 * maka data yang seharusnya sudah terhapus akan tetap ada.
-                 */
-            } catch (err) {
-                // Catch akan di hapus saat Production
-                console.error(err);
+                ]);
             }
+            /**
+             * Handler errornya dibuat seperti di atas, karena jika tidak ada
+             * data maka react akan error dan jika tidak mempertihungkan "fail"
+             * maka data yang seharusnya sudah terhapus akan tetap ada.
+             */
         }, 1000);
     }
 

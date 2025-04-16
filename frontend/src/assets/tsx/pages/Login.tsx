@@ -88,8 +88,6 @@ export default function Login(props: Props) {
             } else if (responseJson.status === "fail") {
                 throw new Error(responseJson.message);
             }
-
-            console.log(responseJson);
         } catch (err: unknown) {
             if (err instanceof Error) {
                 /**
@@ -116,7 +114,6 @@ export default function Login(props: Props) {
                     });
                 }
             }
-            console.error(err);
         }
     }
 

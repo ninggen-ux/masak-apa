@@ -26,33 +26,27 @@ export default function HomeMenuFoodRec(props: Props) {
 
     useEffect(() => {
         async function getHomeMenuFoodRec() {
-            try {
-                const response = await fetch(
-                    "http://localhost:3000/search/recomendations",
-                    {
-                        method: "GET",
-                        credentials: "include",
-                    }
-                );
-
-                const responseJson = await response.json();
-
-                if (responseJson.status === "success") {
-                    setHomeMenuFoodRecData(responseJson.foodsData);
-                } else if (responseJson.status === "fail") {
-                    setHomeMenuFoodRecData([
-                        {
-                            id: "",
-                            ingredients: [""],
-                            name: "",
-                            url: "",
-                        },
-                    ]);
+            const response = await fetch(
+                "http://localhost:3000/search/recomendations",
+                {
+                    method: "GET",
+                    credentials: "include",
                 }
+            );
 
-                console.log(responseJson);
-            } catch (err) {
-                console.log(err);
+            const responseJson = await response.json();
+
+            if (responseJson.status === "success") {
+                setHomeMenuFoodRecData(responseJson.foodsData);
+            } else if (responseJson.status === "fail") {
+                setHomeMenuFoodRecData([
+                    {
+                        id: "",
+                        ingredients: [""],
+                        name: "",
+                        url: "",
+                    },
+                ]);
             }
         }
 
