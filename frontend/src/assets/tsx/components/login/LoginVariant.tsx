@@ -44,17 +44,6 @@ const loginFormInputItemVariant = {
     },
 };
 
-const loginFormInputItemForgetPassword = {
-    initial: {
-        opacity: 0,
-        x: -15,
-    },
-    animate: {
-        opacity: 1,
-        x: 0,
-    },
-};
-
 const loginFormButtonVariant = {
     initial: {},
     animate: {
@@ -91,7 +80,6 @@ export {
     loginFormH1Variant,
     loginFormInputVariant,
     loginFormInputItemVariant,
-    loginFormInputItemForgetPassword,
     loginFormButtonVariant,
     loginFormButtonSubmitVariant,
     loginFormButtonPVariant,

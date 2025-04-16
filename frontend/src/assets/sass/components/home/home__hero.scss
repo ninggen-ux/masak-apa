@@ -22,27 +22,12 @@
             display: flex;
             flex-direction: column;
             gap: 0.7rem;
-            div:nth-of-type(1) {
+            div {
                 h1 {
                     font-size: clamp(3em, 5.5vw, 5.5vw);
                 }
                 p {
                     font-size: clamp(1em, 1.5vw, 1.5vw);
-                }
-            }
-            div:nth-of-type(2) {
-                /*
-                * Di tambahkan flex dibawah karena ukuran div tidak
-                * mau mengikuti ukuran dari padding a
-                */
-                display: flex;
-                a {
-                    padding: 1rem 2rem;
-                    border-radius: 1.5rem;
-                    text-decoration: none;
-                    color: white;
-                    background-color: main.$fourth-color;
-                    font-size: clamp(1em, 1vw, 1vw);
                 }
             }
         }

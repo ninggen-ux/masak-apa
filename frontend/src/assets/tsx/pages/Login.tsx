@@ -17,7 +17,6 @@ import {
     loginFormH1Variant,
     loginFormInputVariant,
     loginFormInputItemVariant,
-    loginFormInputItemForgetPassword,
     loginFormButtonVariant,
     loginFormButtonSubmitVariant,
     loginFormButtonPVariant,
@@ -166,12 +165,6 @@ export default function Login(props: Props) {
                             autoComplete="current-password"
                             value={loginForm.password}
                         />
-                        <motion.div
-                            className="login__form__input__item__forget-password"
-                            variants={loginFormInputItemForgetPassword}
-                        >
-                            <Link to="/otp">Lupa Password?</Link>
-                        </motion.div>
                     </motion.div>
                 </motion.div>
                 <motion.div

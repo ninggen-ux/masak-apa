@@ -52,9 +52,6 @@ export default function HomeHero() {
                             </motion.p>
                         </AnimatePresence>
                     </div>
-                    <div>
-                        <a href="#">Get Started</a>
-                    </div>
                 </div>
             </div>
             <div className="home__hero__food-img">
