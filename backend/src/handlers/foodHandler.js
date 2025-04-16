@@ -12,10 +12,10 @@ const addIngredientHistory = async (userId, ingredients) => {
     );
 
     if (rpcError) {
-      console.error(
-        `Gagal tambah histori untuk '${ingredient}':`,
-        rpcError.message
-      );
+      return {
+        status: "fail",
+        message: rpcError.message,
+      };
     }
   }
 };
@@ -42,7 +42,6 @@ const getAllFood = async (request, h) => {
       })
       .code(200);
   } catch (err) {
-    console.error("Unexpected error:", err);
     return h
       .response({
         status: "error",
@@ -111,7 +110,6 @@ const getFoodByIngredients = async (request, h) => {
       })
       .code(200);
   } catch (err) {
-    console.error(err);
     return h
       .response({
         status: "fail",
@@ -133,7 +131,6 @@ const getFoodRecomendations = async (request, h) => {
       .limit(1);
 
     if (ingredientsError) {
-      console.error(ingredientsError);
       return h
         .response({
           status: "fail",
@@ -160,7 +157,6 @@ const getFoodRecomendations = async (request, h) => {
       .limit(3);
 
     if (foodError) {
-      console.error(foodError);
       return h
         .response({
           status: "fail",
@@ -184,7 +180,6 @@ const getFoodRecomendations = async (request, h) => {
       })
       .code(200);
   } catch (err) {
-    console.error(err);
     return h
       .response({
         status: "fail",
