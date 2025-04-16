@@ -2,7 +2,6 @@ require("dotenv").config();
 const Hapi = require("@hapi/hapi");
 const authRoutes = require("./routes/auth");
 const foodRoutes = require("./routes/food");
-// const setupAuthListener = require("./utils/authListener");
 const Cookie = require("@hapi/cookie");
 
 const init = async () => {
@@ -35,8 +34,6 @@ const init = async () => {
 
     server.route(authRoutes);
     server.route(foodRoutes);
-
-    // setupAuthListener(server);
 
     await server.start();
     console.log("Server running on %s", server.info.uri);
